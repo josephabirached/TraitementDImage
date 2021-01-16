@@ -1,0 +1,10 @@
+C:\Users\Charbel\source\repos\TraitementDimage\TraitementDimage\bin\Debug\TraitementDimage.exe.config
+C:\Users\Charbel\source\repos\TraitementDimage\TraitementDimage\bin\Debug\TraitementDimage.exe
+C:\Users\Charbel\source\repos\TraitementDimage\TraitementDimage\bin\Debug\TraitementDimage.pdb
+C:\Users\Charbel\source\repos\TraitementDimage\TraitementDimage\obj\Debug\TraitementDimage.csprojAssemblyReference.cache
+C:\Users\Charbel\source\repos\TraitementDimage\TraitementDimage\obj\Debug\TraitementDimage.Form1.resources
+C:\Users\Charbel\source\repos\TraitementDimage\TraitementDimage\obj\Debug\TraitementDimage.Properties.Resources.resources
+C:\Users\Charbel\source\repos\TraitementDimage\TraitementDimage\obj\Debug\TraitementDimage.csproj.GenerateResource.cache
+C:\Users\Charbel\source\repos\TraitementDimage\TraitementDimage\obj\Debug\TraitementDimage.csproj.CoreCompileInputs.cache
+C:\Users\Charbel\source\repos\TraitementDimage\TraitementDimage\obj\Debug\TraitementDimage.exe
+C:\Users\Charbel\source\repos\TraitementDimage\TraitementDimage\obj\Debug\TraitementDimage.pdb
