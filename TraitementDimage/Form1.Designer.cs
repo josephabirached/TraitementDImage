@@ -47,6 +47,7 @@
             this.fermetureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.amincissementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.epaississementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.grisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fonctionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.squeletisationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lantuejoulToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,7 +59,6 @@
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.grisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -157,14 +157,15 @@
             // 
             this.additionToolStripMenuItem.Name = "additionToolStripMenuItem";
             this.additionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.additionToolStripMenuItem.Text = "Addition...";
+            this.additionToolStripMenuItem.Text = "Addition";
             this.additionToolStripMenuItem.Click += new System.EventHandler(this.additionToolStripMenuItem_Click);
             // 
             // soustractionToolStripMenuItem
             // 
             this.soustractionToolStripMenuItem.Name = "soustractionToolStripMenuItem";
             this.soustractionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.soustractionToolStripMenuItem.Text = "Soustraction...";
+            this.soustractionToolStripMenuItem.Text = "Soustraction";
+            this.soustractionToolStripMenuItem.Click += new System.EventHandler(this.soustractionToolStripMenuItem_Click);
             // 
             // erosionToolStripMenuItem
             // 
@@ -202,6 +203,13 @@
             this.epaississementToolStripMenuItem.Name = "epaississementToolStripMenuItem";
             this.epaississementToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.epaississementToolStripMenuItem.Text = "Epaississement...";
+            // 
+            // grisToolStripMenuItem
+            // 
+            this.grisToolStripMenuItem.Name = "grisToolStripMenuItem";
+            this.grisToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.grisToolStripMenuItem.Text = "Gris";
+            this.grisToolStripMenuItem.Click += new System.EventHandler(this.grisToolStripMenuItem_Click);
             // 
             // fonctionToolStripMenuItem
             // 
@@ -300,13 +308,6 @@
             this.radioButton3.TabStop = true;
             this.radioButton3.Text = "Result Image";
             this.radioButton3.UseVisualStyleBackColor = true;
-            // 
-            // grisToolStripMenuItem
-            // 
-            this.grisToolStripMenuItem.Name = "grisToolStripMenuItem";
-            this.grisToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.grisToolStripMenuItem.Text = "Gris";
-            this.grisToolStripMenuItem.Click += new System.EventHandler(this.grisToolStripMenuItem_Click);
             // 
             // Form1
             // 

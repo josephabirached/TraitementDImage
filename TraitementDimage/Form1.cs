@@ -33,6 +33,7 @@ namespace TraitementDimage
 
         }
 
+        //Addition
         private void additionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string title="";
@@ -66,6 +67,41 @@ namespace TraitementDimage
                 MessageBox.Show(message, title);
             }
 
+        }
+
+        //Soustraction
+        private void soustractionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string title = "";
+            string message = "";
+
+            if (pictureBox1.Image == null)
+            {
+                message = "Image 1 can't be empty!";
+                title = "Error";
+            }
+            else if (pictureBox2.Image == null)
+            {
+                message = "Image 2 can't be empty!";
+                title = "Error";
+            }
+            else
+            {
+                if (pictureBox1.Image.Height == pictureBox2.Image.Height && pictureBox1.Image.Width == pictureBox2.Image.Width)
+                {
+                    pictureBox3.Image = ImageProcessingService.Substraction(new Bitmap(pictureBox1.Image), new Bitmap(pictureBox2.Image));
+                }
+                else
+                {
+                    message = "Both images should be the same size!";
+                    title = "Error";
+                }
+            }
+
+            if (title == "Error")
+            {
+                MessageBox.Show(message, title);
+            }
         }
 
         private void ouvertureToolStripMenuItem_Click(object sender, EventArgs e)
@@ -149,5 +185,7 @@ namespace TraitementDimage
                 }
             }
         }
+
+
     }
 }
