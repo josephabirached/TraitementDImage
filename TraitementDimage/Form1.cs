@@ -155,10 +155,12 @@ namespace TraitementDimage
             if (radioButton1.Checked)
             {
                 pictureBox1.Image = ImageProcessingService.ConvertBitmapToGrayscale(new Bitmap(pictureBox1.Image));
+                img1State = 1;
             }
             else if (radioButton2.Checked)
             {
-                pictureBox2.Image = ImageProcessingService.ConvertBitmapToGrayscale(new Bitmap(pictureBox2.Image)); ;
+                pictureBox2.Image = ImageProcessingService.ConvertBitmapToGrayscale(new Bitmap(pictureBox2.Image));
+                img2State = 1;
             }
         }
 
@@ -166,8 +168,30 @@ namespace TraitementDimage
         {
             string message;
             string title;
-            ThreshPopup pop = new ThreshPopup();
+            
+            if(radioButton1.Checked && img1State != 1)
+            {
+                message = "Image should be Greyscale!";
+                title = "Error";
+                MessageBox.Show(message, title);
+                return;
+            }
+            else if (radioButton2.Checked && img2State != 1)
+            {
+                message = "Image should be Greyscale!";
+                title = "Error";
+                MessageBox.Show(message, title);
+                return;
+            }
+            else if (radioButton2.Checked && img2State != 1)
+            {
+                message = "Image should be Greyscale!";
+                title = "Error";
+                MessageBox.Show(message, title);
+                return;
+            }
 
+            ThreshPopup pop = new ThreshPopup();
             pop.ShowDialog(this);
             if (OK)
             {
