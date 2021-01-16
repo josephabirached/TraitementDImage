@@ -21,7 +21,6 @@ namespace TraitementDimage
         {
             Form1.threshold = (int)ThreshDropDown.Value;
             Form1.OK = true;
-            Console.WriteLine("Test1");
             Close();
         }
     }

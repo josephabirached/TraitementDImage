@@ -16,6 +16,12 @@ namespace TraitementDimage
 
         static public bool OK = false;
         static public int threshold = 0;
+        // 0 state is RGB
+        // 1 state is Greyscale
+        // 2 state is Bitmap
+        static private int img1State = 0;
+        static private int img2State = 0;
+        static private int img3State = 0;
 
         public Form1()
         {
@@ -29,12 +35,42 @@ namespace TraitementDimage
 
         private void additionToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string title="";
+            string message="";
+ 
+            if (pictureBox1.Image == null)
+            {
+                message = "Image 1 can't be empty!";
+                title = "Error";
+            }
+            else if (pictureBox2.Image == null)
+            {
+                message = "Image 2 can't be empty!";
+                title = "Error";
+            }
+            else
+            {
+                if(pictureBox1.Image.Height == pictureBox2.Image.Height && pictureBox1.Image.Width == pictureBox2.Image.Width)
+                {
+                    pictureBox3.Image = ImageProcessingService.Addition(new Bitmap(pictureBox1.Image), new Bitmap(pictureBox2.Image));
+                }
+                else
+                {
+                    message = "Both images should be the same size!";
+                    title = "Error";
+                }
+            }
+
+            if(title == "Error")
+            {
+                MessageBox.Show(message, title);
+            }
 
         }
 
         private void ouvertureToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -92,7 +128,10 @@ namespace TraitementDimage
 
         private void seuillageToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string message;
+            string title;
             ThreshPopup pop = new ThreshPopup();
+
             pop.ShowDialog(this);
             if (OK)
             {
@@ -102,11 +141,11 @@ namespace TraitementDimage
                 }
                 else if (radioButton2.Checked)
                 {
-                    pictureBox1.Image = ImageProcessingService.Threshhold(new Bitmap(pictureBox2.Image), threshold);
+                    pictureBox2.Image = ImageProcessingService.Threshhold(new Bitmap(pictureBox2.Image), threshold);
                 }
                 else
                 {
-                    pictureBox1.Image = ImageProcessingService.Threshhold(new Bitmap(pictureBox3.Image), threshold);
+                    pictureBox3.Image = ImageProcessingService.Threshhold(new Bitmap(pictureBox3.Image), threshold);
                 }
             }
         }
