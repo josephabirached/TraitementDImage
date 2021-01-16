@@ -10,8 +10,13 @@ using System.Windows.Forms;
 
 namespace TraitementDimage
 {
+
     public partial class Form1 : Form
     {
+
+        static public bool OK = false;
+        static public int threshold = 0;
+
         public Form1()
         {
             InitializeComponent();
@@ -87,7 +92,23 @@ namespace TraitementDimage
 
         private void seuillageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            ThreshPopup pop = new ThreshPopup();
+            pop.ShowDialog(this);
+            if (OK)
+            {
+                if (radioButton1.Checked)
+                {
+                    pictureBox1.Image = ImageProcessingService.Threshhold(new Bitmap(pictureBox1.Image), threshold);
+                }
+                else if (radioButton2.Checked)
+                {
+                    pictureBox1.Image = ImageProcessingService.Threshhold(new Bitmap(pictureBox2.Image), threshold);
+                }
+                else
+                {
+                    pictureBox1.Image = ImageProcessingService.Threshhold(new Bitmap(pictureBox3.Image), threshold);
+                }
+            }
         }
     }
 }
