@@ -1,7 +1,7 @@
 ﻿
 namespace TraitementDimage
 {
-    partial class ErosionDilatationPopup
+    partial class ElementSizePopup
     {
         /// <summary>
         /// Required designer variable.
@@ -31,8 +31,6 @@ namespace TraitementDimage
         {
             this.label1 = new System.Windows.Forms.Label();
             this.elementSize = new System.Windows.Forms.NumericUpDown();
-            this.hexErosion = new System.Windows.Forms.RadioButton();
-            this.squareErosion = new System.Windows.Forms.RadioButton();
             this.button1 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.elementSize)).BeginInit();
@@ -49,7 +47,7 @@ namespace TraitementDimage
             // 
             // elementSize
             // 
-            this.elementSize.Location = new System.Drawing.Point(153, 71);
+            this.elementSize.Location = new System.Drawing.Point(144, 80);
             this.elementSize.Maximum = new decimal(new int[] {
             20,
             0,
@@ -58,28 +56,6 @@ namespace TraitementDimage
             this.elementSize.Name = "elementSize";
             this.elementSize.Size = new System.Drawing.Size(120, 20);
             this.elementSize.TabIndex = 1;
-            // 
-            // hexErosion
-            // 
-            this.hexErosion.AutoSize = true;
-            this.hexErosion.Location = new System.Drawing.Point(111, 97);
-            this.hexErosion.Name = "hexErosion";
-            this.hexErosion.Size = new System.Drawing.Size(84, 17);
-            this.hexErosion.TabIndex = 2;
-            this.hexErosion.TabStop = true;
-            this.hexErosion.Text = "Hex element";
-            this.hexErosion.UseVisualStyleBackColor = true;
-            // 
-            // squareErosion
-            // 
-            this.squareErosion.AutoSize = true;
-            this.squareErosion.Location = new System.Drawing.Point(202, 97);
-            this.squareErosion.Name = "squareErosion";
-            this.squareErosion.Size = new System.Drawing.Size(99, 17);
-            this.squareErosion.TabIndex = 3;
-            this.squareErosion.TabStop = true;
-            this.squareErosion.Text = "Square element";
-            this.squareErosion.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
@@ -107,8 +83,6 @@ namespace TraitementDimage
             this.ClientSize = new System.Drawing.Size(441, 177);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.squareErosion);
-            this.Controls.Add(this.hexErosion);
             this.Controls.Add(this.elementSize);
             this.Controls.Add(this.label1);
             this.Name = "ErosionDilatationPopup";
@@ -122,8 +96,6 @@ namespace TraitementDimage
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown elementSize;
-        private System.Windows.Forms.RadioButton hexErosion;
-        private System.Windows.Forms.RadioButton squareErosion;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label2;
     }

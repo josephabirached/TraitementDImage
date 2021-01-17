@@ -48,9 +48,25 @@
             this.DillatationWhiteBackground = new System.Windows.Forms.ToolStripMenuItem();
             this.DilationBlackBackground = new System.Windows.Forms.ToolStripMenuItem();
             this.ouvertureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openingWhiteBackground = new System.Windows.Forms.ToolStripMenuItem();
+            this.openingBlackBackground = new System.Windows.Forms.ToolStripMenuItem();
             this.fermetureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closingWhiteBackground = new System.Windows.Forms.ToolStripMenuItem();
+            this.ClosingBlackBackground = new System.Windows.Forms.ToolStripMenuItem();
             this.amincissementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.thinningElement1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.thinningWhiteElement1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.thinningBlackElement1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.thinningElement2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.thinningWhiteElement2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.thinningBlackElement2 = new System.Windows.Forms.ToolStripMenuItem();
             this.epaississementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.thickeningElement1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ThickeningWhiteElement1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ThickeningBlackElement1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.thickeningElement2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ThickeningWhiteElement2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ThickeningBlackElement2 = new System.Windows.Forms.ToolStripMenuItem();
             this.grisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fonctionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.squeletisationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -126,12 +142,14 @@
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
             this.undoToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.undoToolStripMenuItem.Text = "Undo";
+            this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
             // 
             // redoToolStripMenuItem
             // 
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
             this.redoToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.redoToolStripMenuItem.Text = "Redo";
+            this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
             // 
             // operationToolStripMenuItem
             // 
@@ -153,21 +171,21 @@
             // seuillageToolStripMenuItem
             // 
             this.seuillageToolStripMenuItem.Name = "seuillageToolStripMenuItem";
-            this.seuillageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.seuillageToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.seuillageToolStripMenuItem.Text = "Seuillage...";
             this.seuillageToolStripMenuItem.Click += new System.EventHandler(this.seuillageToolStripMenuItem_Click);
             // 
             // additionToolStripMenuItem
             // 
             this.additionToolStripMenuItem.Name = "additionToolStripMenuItem";
-            this.additionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.additionToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.additionToolStripMenuItem.Text = "Addition";
             this.additionToolStripMenuItem.Click += new System.EventHandler(this.additionToolStripMenuItem_Click);
             // 
             // soustractionToolStripMenuItem
             // 
             this.soustractionToolStripMenuItem.Name = "soustractionToolStripMenuItem";
-            this.soustractionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.soustractionToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.soustractionToolStripMenuItem.Text = "Soustraction";
             this.soustractionToolStripMenuItem.Click += new System.EventHandler(this.soustractionToolStripMenuItem_Click);
             // 
@@ -177,20 +195,20 @@
             this.erosionWhiteBackground,
             this.ErosionBlackBackground});
             this.erosionToolStripMenuItem.Name = "erosionToolStripMenuItem";
-            this.erosionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.erosionToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.erosionToolStripMenuItem.Text = "Erosion...";
             // 
             // erosionWhiteBackground
             // 
             this.erosionWhiteBackground.Name = "erosionWhiteBackground";
-            this.erosionWhiteBackground.Size = new System.Drawing.Size(180, 22);
+            this.erosionWhiteBackground.Size = new System.Drawing.Size(172, 22);
             this.erosionWhiteBackground.Text = "White background";
             this.erosionWhiteBackground.Click += new System.EventHandler(this.ErosionWhiteBackground_Click);
             // 
             // ErosionBlackBackground
             // 
             this.ErosionBlackBackground.Name = "ErosionBlackBackground";
-            this.ErosionBlackBackground.Size = new System.Drawing.Size(180, 22);
+            this.ErosionBlackBackground.Size = new System.Drawing.Size(172, 22);
             this.ErosionBlackBackground.Text = "Black background";
             this.ErosionBlackBackground.Click += new System.EventHandler(this.ErosionBlackBackground_Click);
             // 
@@ -200,52 +218,183 @@
             this.DillatationWhiteBackground,
             this.DilationBlackBackground});
             this.dillatationToolStripMenuItem.Name = "dillatationToolStripMenuItem";
-            this.dillatationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.dillatationToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.dillatationToolStripMenuItem.Text = "Dillatation...";
             // 
             // DillatationWhiteBackground
             // 
             this.DillatationWhiteBackground.Name = "DillatationWhiteBackground";
-            this.DillatationWhiteBackground.Size = new System.Drawing.Size(180, 22);
+            this.DillatationWhiteBackground.Size = new System.Drawing.Size(172, 22);
             this.DillatationWhiteBackground.Text = "White background";
             this.DillatationWhiteBackground.Click += new System.EventHandler(this.DillatationWhiteBackground_Click);
             // 
             // DilationBlackBackground
             // 
             this.DilationBlackBackground.Name = "DilationBlackBackground";
-            this.DilationBlackBackground.Size = new System.Drawing.Size(180, 22);
+            this.DilationBlackBackground.Size = new System.Drawing.Size(172, 22);
             this.DilationBlackBackground.Text = "Black background";
             this.DilationBlackBackground.Click += new System.EventHandler(this.DilatationBlackBackground_Click);
             // 
             // ouvertureToolStripMenuItem
             // 
+            this.ouvertureToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openingWhiteBackground,
+            this.openingBlackBackground});
             this.ouvertureToolStripMenuItem.Name = "ouvertureToolStripMenuItem";
-            this.ouvertureToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ouvertureToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.ouvertureToolStripMenuItem.Text = "Ouverture...";
-            this.ouvertureToolStripMenuItem.Click += new System.EventHandler(this.ouvertureToolStripMenuItem_Click);
+            // 
+            // openingWhiteBackground
+            // 
+            this.openingWhiteBackground.Name = "openingWhiteBackground";
+            this.openingWhiteBackground.Size = new System.Drawing.Size(172, 22);
+            this.openingWhiteBackground.Text = "White background";
+            this.openingWhiteBackground.Click += new System.EventHandler(this.openingWhiteBackground_Click);
+            // 
+            // openingBlackBackground
+            // 
+            this.openingBlackBackground.Name = "openingBlackBackground";
+            this.openingBlackBackground.Size = new System.Drawing.Size(172, 22);
+            this.openingBlackBackground.Text = "Black background";
+            this.openingBlackBackground.Click += new System.EventHandler(this.openingBlackBackground_Click);
             // 
             // fermetureToolStripMenuItem
             // 
+            this.fermetureToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.closingWhiteBackground,
+            this.ClosingBlackBackground});
             this.fermetureToolStripMenuItem.Name = "fermetureToolStripMenuItem";
-            this.fermetureToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fermetureToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.fermetureToolStripMenuItem.Text = "Fermeture...";
+            // 
+            // closingWhiteBackground
+            // 
+            this.closingWhiteBackground.Name = "closingWhiteBackground";
+            this.closingWhiteBackground.Size = new System.Drawing.Size(172, 22);
+            this.closingWhiteBackground.Text = "White background";
+            this.closingWhiteBackground.Click += new System.EventHandler(this.closingWhiteBackground_Click);
+            // 
+            // ClosingBlackBackground
+            // 
+            this.ClosingBlackBackground.Name = "ClosingBlackBackground";
+            this.ClosingBlackBackground.Size = new System.Drawing.Size(172, 22);
+            this.ClosingBlackBackground.Text = "Black background";
+            this.ClosingBlackBackground.Click += new System.EventHandler(this.ClosingBlackBackground_Click);
             // 
             // amincissementToolStripMenuItem
             // 
+            this.amincissementToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.thinningElement1,
+            this.thinningElement2});
             this.amincissementToolStripMenuItem.Name = "amincissementToolStripMenuItem";
-            this.amincissementToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.amincissementToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.amincissementToolStripMenuItem.Text = "Amincissement...";
+            // 
+            // thinningElement1
+            // 
+            this.thinningElement1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.thinningWhiteElement1,
+            this.thinningBlackElement1});
+            this.thinningElement1.Name = "thinningElement1";
+            this.thinningElement1.Size = new System.Drawing.Size(126, 22);
+            this.thinningElement1.Text = "Element 1";
+            // 
+            // thinningWhiteElement1
+            // 
+            this.thinningWhiteElement1.Name = "thinningWhiteElement1";
+            this.thinningWhiteElement1.Size = new System.Drawing.Size(172, 22);
+            this.thinningWhiteElement1.Text = "White background";
+            this.thinningWhiteElement1.Click += new System.EventHandler(this.thinningWhiteElement1_Click);
+            // 
+            // thinningBlackElement1
+            // 
+            this.thinningBlackElement1.Name = "thinningBlackElement1";
+            this.thinningBlackElement1.Size = new System.Drawing.Size(172, 22);
+            this.thinningBlackElement1.Text = "Black background";
+            this.thinningBlackElement1.Click += new System.EventHandler(this.thinningBlackElement1_Click);
+            // 
+            // thinningElement2
+            // 
+            this.thinningElement2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.thinningWhiteElement2,
+            this.thinningBlackElement2});
+            this.thinningElement2.Name = "thinningElement2";
+            this.thinningElement2.Size = new System.Drawing.Size(126, 22);
+            this.thinningElement2.Text = "Element 2";
+            // 
+            // thinningWhiteElement2
+            // 
+            this.thinningWhiteElement2.Name = "thinningWhiteElement2";
+            this.thinningWhiteElement2.Size = new System.Drawing.Size(172, 22);
+            this.thinningWhiteElement2.Text = "White background";
+            this.thinningWhiteElement2.Click += new System.EventHandler(this.thinningWhiteElement2_Click);
+            // 
+            // thinningBlackElement2
+            // 
+            this.thinningBlackElement2.Name = "thinningBlackElement2";
+            this.thinningBlackElement2.Size = new System.Drawing.Size(172, 22);
+            this.thinningBlackElement2.Text = "Black background";
+            this.thinningBlackElement2.Click += new System.EventHandler(this.thinningBlackElement2_Click);
             // 
             // epaississementToolStripMenuItem
             // 
+            this.epaississementToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.thickeningElement1,
+            this.thickeningElement2});
             this.epaississementToolStripMenuItem.Name = "epaississementToolStripMenuItem";
-            this.epaississementToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.epaississementToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.epaississementToolStripMenuItem.Text = "Epaississement...";
+            // 
+            // thickeningElement1
+            // 
+            this.thickeningElement1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ThickeningWhiteElement1,
+            this.ThickeningBlackElement1});
+            this.thickeningElement1.Name = "thickeningElement1";
+            this.thickeningElement1.Size = new System.Drawing.Size(126, 22);
+            this.thickeningElement1.Text = "Element 1";
+            // 
+            // ThickeningWhiteElement1
+            // 
+            this.ThickeningWhiteElement1.Name = "ThickeningWhiteElement1";
+            this.ThickeningWhiteElement1.Size = new System.Drawing.Size(172, 22);
+            this.ThickeningWhiteElement1.Text = "White background";
+            this.ThickeningWhiteElement1.Click += new System.EventHandler(this.ThickeningWhiteElement1_Click);
+            // 
+            // ThickeningBlackElement1
+            // 
+            this.ThickeningBlackElement1.Name = "ThickeningBlackElement1";
+            this.ThickeningBlackElement1.Size = new System.Drawing.Size(172, 22);
+            this.ThickeningBlackElement1.Text = "Black background";
+            this.ThickeningBlackElement1.Click += new System.EventHandler(this.ThickeningBlackElement1_Click);
+            // 
+            // thickeningElement2
+            // 
+            this.thickeningElement2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ThickeningWhiteElement2,
+            this.ThickeningBlackElement2});
+            this.thickeningElement2.Name = "thickeningElement2";
+            this.thickeningElement2.Size = new System.Drawing.Size(126, 22);
+            this.thickeningElement2.Text = "Element 2";
+            // 
+            // ThickeningWhiteElement2
+            // 
+            this.ThickeningWhiteElement2.Name = "ThickeningWhiteElement2";
+            this.ThickeningWhiteElement2.Size = new System.Drawing.Size(172, 22);
+            this.ThickeningWhiteElement2.Text = "White background";
+            this.ThickeningWhiteElement2.Click += new System.EventHandler(this.ThickeningWhiteElement2_Click);
+            // 
+            // ThickeningBlackElement2
+            // 
+            this.ThickeningBlackElement2.Name = "ThickeningBlackElement2";
+            this.ThickeningBlackElement2.Size = new System.Drawing.Size(172, 22);
+            this.ThickeningBlackElement2.Text = "Black background";
+            this.ThickeningBlackElement2.Click += new System.EventHandler(this.ThickeningBlackElement2_Click);
             // 
             // grisToolStripMenuItem
             // 
             this.grisToolStripMenuItem.Name = "grisToolStripMenuItem";
-            this.grisToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.grisToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.grisToolStripMenuItem.Text = "Gris";
             this.grisToolStripMenuItem.Click += new System.EventHandler(this.grisToolStripMenuItem_Click);
             // 
@@ -263,7 +412,7 @@
             this.lantuejoulToolStripMenuItem,
             this.amincissementHomothopiqueToolStripMenuItem});
             this.squeletisationToolStripMenuItem.Name = "squeletisationToolStripMenuItem";
-            this.squeletisationToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.squeletisationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.squeletisationToolStripMenuItem.Text = "Squelettisation";
             // 
             // lantuejoulToolStripMenuItem
@@ -271,12 +420,14 @@
             this.lantuejoulToolStripMenuItem.Name = "lantuejoulToolStripMenuItem";
             this.lantuejoulToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.lantuejoulToolStripMenuItem.Text = "Lantuejoul";
+            this.lantuejoulToolStripMenuItem.Click += new System.EventHandler(this.lantuejoulToolStripMenuItem_Click);
             // 
             // amincissementHomothopiqueToolStripMenuItem
             // 
             this.amincissementHomothopiqueToolStripMenuItem.Name = "amincissementHomothopiqueToolStripMenuItem";
             this.amincissementHomothopiqueToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.amincissementHomothopiqueToolStripMenuItem.Text = "Amincissement homothopique";
+            this.amincissementHomothopiqueToolStripMenuItem.Click += new System.EventHandler(this.amincissementHomothopiqueToolStripMenuItem_Click);
             // 
             // pictureBox1
             // 
@@ -408,6 +559,22 @@
         private System.Windows.Forms.ToolStripMenuItem ErosionBlackBackground;
         private System.Windows.Forms.ToolStripMenuItem DillatationWhiteBackground;
         private System.Windows.Forms.ToolStripMenuItem DilationBlackBackground;
+        private System.Windows.Forms.ToolStripMenuItem openingWhiteBackground;
+        private System.Windows.Forms.ToolStripMenuItem openingBlackBackground;
+        private System.Windows.Forms.ToolStripMenuItem closingWhiteBackground;
+        private System.Windows.Forms.ToolStripMenuItem ClosingBlackBackground;
+        private System.Windows.Forms.ToolStripMenuItem thinningElement1;
+        private System.Windows.Forms.ToolStripMenuItem thinningElement2;
+        private System.Windows.Forms.ToolStripMenuItem thickeningElement1;
+        private System.Windows.Forms.ToolStripMenuItem thickeningElement2;
+        private System.Windows.Forms.ToolStripMenuItem thinningWhiteElement1;
+        private System.Windows.Forms.ToolStripMenuItem thinningBlackElement1;
+        private System.Windows.Forms.ToolStripMenuItem thinningWhiteElement2;
+        private System.Windows.Forms.ToolStripMenuItem thinningBlackElement2;
+        private System.Windows.Forms.ToolStripMenuItem ThickeningWhiteElement1;
+        private System.Windows.Forms.ToolStripMenuItem ThickeningBlackElement1;
+        private System.Windows.Forms.ToolStripMenuItem ThickeningWhiteElement2;
+        private System.Windows.Forms.ToolStripMenuItem ThickeningBlackElement2;
     }
 }
 
