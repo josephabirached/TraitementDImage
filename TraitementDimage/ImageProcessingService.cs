@@ -10,7 +10,19 @@ namespace TraitementDimage
     public class ImageProcessingService
     {
         public static int ONE = 255;
-        public static int TWO = 0;
+        public static int ZERO = 0;
+
+        public static void SetWhiteBackground()
+        {
+            ONE = 0;
+            ZERO = 255;
+        }
+
+        public static void SetBlackBackground()
+        {
+            ONE = 255;
+            ZERO = 0;
+        }
 
         public static Bitmap ConvertBitmapToGrayscale(Bitmap bitmap)
         {
@@ -22,9 +34,9 @@ namespace TraitementDimage
             {
                 for (int y = 0; y < bitmap.Height; y++)
                 {
-                    Color color = bm.GetPixel(x,y);
+                    Color color = bm.GetPixel(x, y);
                     int average = (color.R + color.G + color.B) / 3;
-                    Color gray = Color.FromArgb(average,average,average);
+                    Color gray = Color.FromArgb(average, average, average);
                     bm.SetPixel(x, y, gray);
                 }
             }
@@ -113,27 +125,285 @@ namespace TraitementDimage
             return bm;
         }
 
-        public static Bitmap ErosionCarre(Bitmap bitmap, int [][] elt, int width, int height)
+        public static Bitmap ErosionCarre(Bitmap bitmap, int[][] elt, int taille)
         {
             Bitmap bm = new Bitmap(bitmap);
+            int somme;
+            int goal = 0;
+            int width = taille * 2 + 1;
+            int height = width;
 
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    if (elt[i][j] == ONE)
+                    {
+                        goal++;
+                    }
+                }
+            }
             // Process the pixels.
             for (int x = 0; x < bitmap.Width; x++)
             {
                 for (int y = 0; y < bitmap.Height; y++)
                 {
-                    bool isOne = true;
-                    for (int i = 0; i<width; i++)
+                    somme = 0;
+                    for (int i = 0; i < width; i++)
                     {
-                        
+                        for (int j = 0; j < height; j++)
+                        {
+                            if (elt[i][j] == ONE)
+                            {
+                                try
+                                {
+                                    if (bitmap.GetPixel(x - width + i, y - height + j).R == ONE)
+                                    {
+                                        somme++;
+                                    }
+                                }
+                                catch (Exception ex) { }
+                            }
+                        }
                     }
-
-                    //bm.SetPixel(x, y, color);
+                    if (somme == goal)
+                    {
+                        bm.SetPixel(x, y, Color.FromArgb(ONE, ONE, ONE));
+                    }
+                    else
+                    {
+                        bm.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
+                    }
                 }
             }
 
             // Return bitmap
             return bm;
         }
+        public static Bitmap DillatationCarre(Bitmap bitmap, int[][] elt, int taille)
+        {
+            Bitmap bm = new Bitmap(bitmap);
+            int somme;
+            int width = taille * 2 + 1;
+            int height = width;
+
+            // Process the pixels.
+            for (int x = 0; x < bitmap.Width; x++)
+            {
+                for (int y = 0; y < bitmap.Height; y++)
+                {
+                    somme = 0;
+                    for (int i = 0; i < width; i++)
+                    {
+                        for (int j = 0; j < height; j++)
+                        {
+                            if (elt[i][j] == ONE)
+                            {
+                                try
+                                {
+                                    if (bitmap.GetPixel(x - width + i, y - height + j).R == ONE)
+                                    {
+                                        somme++;
+                                    }
+                                }
+                                catch (Exception ex) { }
+                            }
+                        }
+                    }
+                    if (somme > 0)
+                    {
+                        bm.SetPixel(x, y, Color.FromArgb(ONE, ONE, ONE));
+                    }
+                    else
+                    {
+                        bm.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
+                    }
+
+
+                }
+            }
+            return bm;
+        }
+        /*
+         * Pair
+         * 1 1 0
+         * 1 1 1
+         * 1 1 0
+         * Impair 
+         * 0 1 1
+         * 1 1 1
+         * 0 1 1
+         */
+        public static Bitmap ErosionHex(Bitmap bitmap, int[][] elt, int taille)
+        {
+            int[][] flippedElt = flipElt(elt);
+            int[][][] elements = { elt, flippedElt };
+            Bitmap bm = new Bitmap(bitmap);
+            int somme;
+            int goal = 0;
+            int width = taille * 2 + 1;
+            int height = width;
+
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    if (elt[i][j] == ONE)
+                    {
+                        goal++;
+                    }
+                }
+            }
+            // Process the pixels.
+            for (int x = 0; x < bitmap.Width; x++)
+            {
+                for (int y = 0; y < bitmap.Height; y++)
+                {
+                    somme = 0;
+                    for (int i = 0; i < width; i++)
+                    {
+                        for (int j = 0; j < height; j++)
+                        {
+                            if (elements[i % 2][i][j] == ONE)
+                            {
+                                try
+                                {
+                                    if (bitmap.GetPixel(x - width + i, y - height + j).R == ONE)
+                                    {
+                                        somme++;
+                                    }
+                                }
+                                catch (Exception ex) { }
+                            }
+                        }
+                    }
+                    if (somme == goal)
+                    {
+                        bm.SetPixel(x, y, Color.FromArgb(ONE, ONE, ONE));
+                    }
+                    else
+                    {
+                        bm.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
+                    }
+                }
+            }
+
+            // Return bitmap
+            return bm;
+        }
+
+        public static Bitmap DillatationHex(Bitmap bitmap, int[][] elt, int taille)
+        {
+            int[][] flippedElt = flipElt(elt);
+            int[][][] elements = { elt, flippedElt };
+            Bitmap bm = new Bitmap(bitmap);
+            int somme;
+            int width = taille * 2 + 1;
+            int height = width;
+
+
+            // Process the pixels.
+            for (int x = 0; x < bitmap.Width; x++)
+            {
+                for (int y = 0; y < bitmap.Height; y++)
+                {
+                    somme = 0;
+                    for (int i = 0; i < width; i++)
+                    {
+                        for (int j = 0; j < height; j++)
+                        {
+                            if (elements[i % 2][i][j] == ONE)
+                            {
+                                try
+                                {
+                                    if (bitmap.GetPixel(x - width + i, y - height + j).R == ONE)
+                                    {
+                                        somme++;
+                                    }
+                                }
+                                catch (Exception ex) { }
+                            }
+                        }
+                    }
+                    if (somme > 0)
+                    {
+                        bm.SetPixel(x, y, Color.FromArgb(ONE, ONE, ONE));
+                    }
+                    else
+                    {
+                        bm.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
+                    }
+                }
+            }
+
+            // Return bitmap
+            return bm;
+        }
+
+        private static int[][] flipElt(int[][] elt)
+        {
+            int[][] flipped = new int[elt.Length][];
+            for (int i = 0; i < elt.Length; i++)
+            {
+                flipped[i] = new int[elt.Length];
+            }
+            for (int i = 0; i < elt.Length; i++)
+            {
+                for (int j = 0; j < elt.Length; j++)
+                {
+                    flipped[i][j] = elt[i][elt.Length - j - 1];
+                }
+            }
+            return flipped;
+        }
+
+        public static int[][] GetEltCarre(int N)
+        {
+            int L = 2 * N + 1;
+            int[][] elt = new int[L][];
+            for (int i = 0; i < L; i++)
+            {
+                elt[i] = new int[L];
+            }
+            for (int i = 0; i < L; i++)
+            {
+                for (int j = 0; j < L; j++)
+                {
+                    elt[i][j] = ONE;
+                }
+            }
+            return elt;
+        }
+
+        public static int[][] GetEltHex(int N)
+        {
+            int L = 2 * N + 1;
+            int[][] elt = new int[L][];
+            for (int i = 0; i < L; i++)
+            {
+                elt[i] = new int[L];
+            }
+            for (int i = 0; i < N; i++)
+            {
+                int j = 0;
+                for (; j < L - N + i; j++)
+                {
+                    elt[i][j] = ONE;
+                    elt[L-i-1][j] = ONE;
+                }
+                for (; j < L; j++)
+                {
+                    elt[i][j] = ZERO;
+                    elt[L - i - 1][j] = ZERO;
+                }
+            }
+            for(int j = 0; j < L; j++)
+            {
+                elt[N][j] = ONE;
+            }
+            return elt;
+        }
+
+
     }
 }

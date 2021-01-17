@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErosionPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ErosionPopup.Designer.cs">
+      <DependentUpon>ErosionPopup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -61,6 +67,9 @@
     <Compile Include="ThreshPopup.Designer.cs">
       <DependentUpon>ThreshPopup.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ErosionPopup.resx">
+      <DependentUpon>ErosionPopup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

@@ -59,6 +59,8 @@
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.whiteBackgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.blackBackgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -169,6 +171,9 @@
             // 
             // erosionToolStripMenuItem
             // 
+            this.erosionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.whiteBackgroundToolStripMenuItem,
+            this.blackBackgroundToolStripMenuItem});
             this.erosionToolStripMenuItem.Name = "erosionToolStripMenuItem";
             this.erosionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.erosionToolStripMenuItem.Text = "Erosion...";
@@ -309,6 +314,19 @@
             this.radioButton3.Text = "Result Image";
             this.radioButton3.UseVisualStyleBackColor = true;
             // 
+            // whiteBackgroundToolStripMenuItem
+            // 
+            this.whiteBackgroundToolStripMenuItem.Name = "whiteBackgroundToolStripMenuItem";
+            this.whiteBackgroundToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.whiteBackgroundToolStripMenuItem.Text = "White background";
+            this.whiteBackgroundToolStripMenuItem.Click += new System.EventHandler(this.whiteBackgroundToolStripMenuItem_Click);
+            // 
+            // blackBackgroundToolStripMenuItem
+            // 
+            this.blackBackgroundToolStripMenuItem.Name = "blackBackgroundToolStripMenuItem";
+            this.blackBackgroundToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.blackBackgroundToolStripMenuItem.Text = "Black background";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -367,6 +385,8 @@
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.ToolStripMenuItem grisToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem whiteBackgroundToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem blackBackgroundToolStripMenuItem;
     }
 }
 

@@ -18,7 +18,7 @@ namespace TraitementDimage
         static public int threshold = 0;
         // 0 state is RGB
         // 1 state is Greyscale
-        // 2 state is Bitmap
+        // 2 state is Binary
         static private int img1State = 0;
         static private int img2State = 0;
         static private int img3State = 0;
@@ -26,6 +26,35 @@ namespace TraitementDimage
         public Form1()
         {
             InitializeComponent();
+            int[][] elt = ImageProcessingService.GetEltHex(2);
+            for (int i = 0; i < elt.Length; i++)
+            {
+                for (int j = 0; j < elt.Length; j++)
+                {
+                    Console.Write(elt[i][j] + " ");
+                }
+                Console.WriteLine();
+            }
+
+            int[][] elt1 = ImageProcessingService.GetEltHex(1);
+            for (int i = 0; i < elt1.Length; i++)
+            {
+                for (int j = 0; j < elt1.Length; j++)
+                {
+                    Console.Write(elt1[i][j] + " ");
+                }
+                Console.WriteLine();
+            }
+
+            int[][] elt2 = ImageProcessingService.GetEltHex(3);
+            for (int i = 0; i < elt2.Length; i++)
+            {
+                for (int j = 0; j < elt2.Length; j++)
+                {
+                    Console.Write(elt2[i][j] + " ");
+                }
+                Console.WriteLine();
+            }
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -152,6 +181,21 @@ namespace TraitementDimage
 
         private void grisToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if(radioButton1.Checked && radioButton1.Image == null)
+            {
+                string message = "Image 1 should not be empty!";
+                string title = "Error";
+                MessageBox.Show(message, title);
+                return;
+            }
+            else if (radioButton2.Checked && radioButton2.Image == null)
+            {
+                string message = "Image 2 should not be empty!";
+                string title = "Error";
+                MessageBox.Show(message, title);
+                return;
+            }
+
             if (radioButton1.Checked)
             {
                 pictureBox1.Image = ImageProcessingService.ConvertBitmapToGrayscale(new Bitmap(pictureBox1.Image));
@@ -198,18 +242,25 @@ namespace TraitementDimage
                 if (radioButton1.Checked)
                 {
                     pictureBox1.Image = ImageProcessingService.Threshhold(new Bitmap(pictureBox1.Image), threshold);
+                    img1State = 2;
                 }
                 else if (radioButton2.Checked)
                 {
                     pictureBox2.Image = ImageProcessingService.Threshhold(new Bitmap(pictureBox2.Image), threshold);
+                    img2State = 2;
                 }
                 else
                 {
                     pictureBox3.Image = ImageProcessingService.Threshhold(new Bitmap(pictureBox3.Image), threshold);
+                    img3State = 2;
                 }
             }
         }
 
-
+        //Erosion white background
+        private void whiteBackgroundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
