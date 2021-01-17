@@ -133,6 +133,14 @@ namespace TraitementDimage
             int width = taille * 2 + 1;
             int height = width;
 
+            for (int x = 0; x < bitmap.Width; x++)
+            {
+                for (int y = 0; y < bitmap.Height; y++)
+                {
+                    bm.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
+                }
+            }
+
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
@@ -144,9 +152,9 @@ namespace TraitementDimage
                 }
             }
             // Process the pixels.
-            for (int x = 0; x < bitmap.Width; x++)
+            for (int x = taille; x < bitmap.Width - taille; x++)
             {
-                for (int y = 0; y < bitmap.Height; y++)
+                for (int y = taille; y < bitmap.Height - taille; y++)
                 {
                     somme = 0;
                     for (int i = 0; i < width; i++)
@@ -155,14 +163,13 @@ namespace TraitementDimage
                         {
                             if (elt[i][j] == ONE)
                             {
-                                try
+
+                                if (bitmap.GetPixel(x - taille + i, y - taille + j).R == ONE)
                                 {
-                                    if (bitmap.GetPixel(x - width + i, y - height + j).R == ONE)
-                                    {
-                                        somme++;
-                                    }
+                                    somme++;
                                 }
-                                catch (Exception ex) { }
+
+
                             }
                         }
                     }
@@ -170,10 +177,7 @@ namespace TraitementDimage
                     {
                         bm.SetPixel(x, y, Color.FromArgb(ONE, ONE, ONE));
                     }
-                    else
-                    {
-                        bm.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
-                    }
+
                 }
             }
 
@@ -187,10 +191,18 @@ namespace TraitementDimage
             int width = taille * 2 + 1;
             int height = width;
 
-            // Process the pixels.
             for (int x = 0; x < bitmap.Width; x++)
             {
                 for (int y = 0; y < bitmap.Height; y++)
+                {
+                    bm.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
+                }
+            }
+
+            // Process the pixels.
+            for (int x = taille; x < bitmap.Width - taille; x++)
+            {
+                for (int y = taille; y < bitmap.Height - taille; y++)
                 {
                     somme = 0;
                     for (int i = 0; i < width; i++)
@@ -201,7 +213,7 @@ namespace TraitementDimage
                             {
                                 try
                                 {
-                                    if (bitmap.GetPixel(x - width + i, y - height + j).R == ONE)
+                                    if (bitmap.GetPixel(x - taille + i, y - taille + j).R == ONE)
                                     {
                                         somme++;
                                     }
@@ -214,11 +226,6 @@ namespace TraitementDimage
                     {
                         bm.SetPixel(x, y, Color.FromArgb(ONE, ONE, ONE));
                     }
-                    else
-                    {
-                        bm.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
-                    }
-
 
                 }
             }
@@ -244,6 +251,14 @@ namespace TraitementDimage
             int width = taille * 2 + 1;
             int height = width;
 
+            for (int x = 0; x < bitmap.Width; x++)
+            {
+                for (int y = 0; y < bitmap.Height; y++)
+                {
+                    bm.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
+                }
+            }
+
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
@@ -255,9 +270,9 @@ namespace TraitementDimage
                 }
             }
             // Process the pixels.
-            for (int x = 0; x < bitmap.Width; x++)
+            for (int x = taille; x < bitmap.Width - taille; x++)
             {
-                for (int y = 0; y < bitmap.Height; y++)
+                for (int y = taille; y < bitmap.Height - taille; y++)
                 {
                     somme = 0;
                     for (int i = 0; i < width; i++)
@@ -268,7 +283,7 @@ namespace TraitementDimage
                             {
                                 try
                                 {
-                                    if (bitmap.GetPixel(x - width + i, y - height + j).R == ONE)
+                                    if (bitmap.GetPixel(x - taille + i, y - taille + j).R == ONE)
                                     {
                                         somme++;
                                     }
@@ -280,10 +295,6 @@ namespace TraitementDimage
                     if (somme == goal)
                     {
                         bm.SetPixel(x, y, Color.FromArgb(ONE, ONE, ONE));
-                    }
-                    else
-                    {
-                        bm.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
                     }
                 }
             }
@@ -301,11 +312,18 @@ namespace TraitementDimage
             int width = taille * 2 + 1;
             int height = width;
 
-
-            // Process the pixels.
             for (int x = 0; x < bitmap.Width; x++)
             {
                 for (int y = 0; y < bitmap.Height; y++)
+                {
+                    bm.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
+                }
+            }
+
+            // Process the pixels.
+            for (int x = taille; x < bitmap.Width - taille; x++)
+            {
+                for (int y = taille; y < bitmap.Height - taille; y++)
                 {
                     somme = 0;
                     for (int i = 0; i < width; i++)
@@ -316,7 +334,7 @@ namespace TraitementDimage
                             {
                                 try
                                 {
-                                    if (bitmap.GetPixel(x - width + i, y - height + j).R == ONE)
+                                    if (bitmap.GetPixel(x - taille + i, y - taille + j).R == ONE)
                                     {
                                         somme++;
                                     }
@@ -329,10 +347,7 @@ namespace TraitementDimage
                     {
                         bm.SetPixel(x, y, Color.FromArgb(ONE, ONE, ONE));
                     }
-                    else
-                    {
-                        bm.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
-                    }
+
                 }
             }
 
@@ -389,7 +404,7 @@ namespace TraitementDimage
                 for (; j < L - N + i; j++)
                 {
                     elt[i][j] = ONE;
-                    elt[L-i-1][j] = ONE;
+                    elt[L - i - 1][j] = ONE;
                 }
                 for (; j < L; j++)
                 {
@@ -397,11 +412,85 @@ namespace TraitementDimage
                     elt[L - i - 1][j] = ZERO;
                 }
             }
-            for(int j = 0; j < L; j++)
+            for (int j = 0; j < L; j++)
             {
                 elt[N][j] = ONE;
             }
             return elt;
+        }
+
+        public static Bitmap OuvertureCarre(Bitmap bitmap, int[][] elt, int taille)
+        {
+            Bitmap bm = new Bitmap(bitmap.Width, bitmap.Height);
+
+            int somme;
+            int goal = 0;
+            int width = taille * 2 + 1;
+            int height = width;
+            for (int x = 0; x < bitmap.Width; x++)
+            {
+                for (int y = 0; y < bitmap.Height; y++)
+                {
+                    bm.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
+                }
+            }
+
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    if (elt[i][j] == ONE)
+                    {
+                        goal++;
+                    }
+                }
+            }
+            // Process the pixels.
+            for (int x = 0; x < bitmap.Width; x++)
+            {
+                for (int y = 0; y < bitmap.Height; y++)
+                {
+                    somme = 0;
+                    for (int i = 0; i < width; i++)
+                    {
+                        for (int j = 0; j < height; j++)
+                        {
+                            if (elt[i][j] == ONE)
+                            {
+                                try
+                                {
+                                    if (bitmap.GetPixel(x - width + i, y - height + j).R == ONE)
+                                    {
+                                        somme++;
+                                    }
+                                }
+                                catch (Exception ex) { }
+                            }
+                        }
+                    }
+                    if (somme == goal)
+                    {
+                        for (int i = 0; i < width; i++)
+                        {
+                            for (int j = 0; j < height; j++)
+                            {
+                                if (elt[i][j] == ONE)
+                                {
+                                    try
+                                    {
+                                        bitmap.SetPixel(x - width + i, y - height + j, Color.FromArgb(ONE, ONE, ONE));
+                                    }
+                                    catch (Exception ex) { }
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            // Return bitmap
+            return bm;
         }
 
 

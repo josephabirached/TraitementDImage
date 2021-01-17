@@ -42,7 +42,11 @@
             this.additionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.soustractionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.erosionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.erosionWhiteBackground = new System.Windows.Forms.ToolStripMenuItem();
+            this.ErosionBlackBackground = new System.Windows.Forms.ToolStripMenuItem();
             this.dillatationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DillatationWhiteBackground = new System.Windows.Forms.ToolStripMenuItem();
+            this.DilationBlackBackground = new System.Windows.Forms.ToolStripMenuItem();
             this.ouvertureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fermetureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.amincissementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,8 +63,6 @@
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.whiteBackgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.blackBackgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -172,17 +174,48 @@
             // erosionToolStripMenuItem
             // 
             this.erosionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.whiteBackgroundToolStripMenuItem,
-            this.blackBackgroundToolStripMenuItem});
+            this.erosionWhiteBackground,
+            this.ErosionBlackBackground});
             this.erosionToolStripMenuItem.Name = "erosionToolStripMenuItem";
             this.erosionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.erosionToolStripMenuItem.Text = "Erosion...";
             // 
+            // erosionWhiteBackground
+            // 
+            this.erosionWhiteBackground.Name = "erosionWhiteBackground";
+            this.erosionWhiteBackground.Size = new System.Drawing.Size(180, 22);
+            this.erosionWhiteBackground.Text = "White background";
+            this.erosionWhiteBackground.Click += new System.EventHandler(this.ErosionWhiteBackground_Click);
+            // 
+            // ErosionBlackBackground
+            // 
+            this.ErosionBlackBackground.Name = "ErosionBlackBackground";
+            this.ErosionBlackBackground.Size = new System.Drawing.Size(180, 22);
+            this.ErosionBlackBackground.Text = "Black background";
+            this.ErosionBlackBackground.Click += new System.EventHandler(this.ErosionBlackBackground_Click);
+            // 
             // dillatationToolStripMenuItem
             // 
+            this.dillatationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.DillatationWhiteBackground,
+            this.DilationBlackBackground});
             this.dillatationToolStripMenuItem.Name = "dillatationToolStripMenuItem";
             this.dillatationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.dillatationToolStripMenuItem.Text = "Dillatation...";
+            // 
+            // DillatationWhiteBackground
+            // 
+            this.DillatationWhiteBackground.Name = "DillatationWhiteBackground";
+            this.DillatationWhiteBackground.Size = new System.Drawing.Size(180, 22);
+            this.DillatationWhiteBackground.Text = "White background";
+            this.DillatationWhiteBackground.Click += new System.EventHandler(this.DillatationWhiteBackground_Click);
+            // 
+            // DilationBlackBackground
+            // 
+            this.DilationBlackBackground.Name = "DilationBlackBackground";
+            this.DilationBlackBackground.Size = new System.Drawing.Size(180, 22);
+            this.DilationBlackBackground.Text = "Black background";
+            this.DilationBlackBackground.Click += new System.EventHandler(this.DilatationBlackBackground_Click);
             // 
             // ouvertureToolStripMenuItem
             // 
@@ -314,19 +347,6 @@
             this.radioButton3.Text = "Result Image";
             this.radioButton3.UseVisualStyleBackColor = true;
             // 
-            // whiteBackgroundToolStripMenuItem
-            // 
-            this.whiteBackgroundToolStripMenuItem.Name = "whiteBackgroundToolStripMenuItem";
-            this.whiteBackgroundToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.whiteBackgroundToolStripMenuItem.Text = "White background";
-            this.whiteBackgroundToolStripMenuItem.Click += new System.EventHandler(this.whiteBackgroundToolStripMenuItem_Click);
-            // 
-            // blackBackgroundToolStripMenuItem
-            // 
-            this.blackBackgroundToolStripMenuItem.Name = "blackBackgroundToolStripMenuItem";
-            this.blackBackgroundToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.blackBackgroundToolStripMenuItem.Text = "Black background";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -341,7 +361,6 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Form1";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -385,8 +404,10 @@
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.ToolStripMenuItem grisToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem whiteBackgroundToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem blackBackgroundToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem erosionWhiteBackground;
+        private System.Windows.Forms.ToolStripMenuItem ErosionBlackBackground;
+        private System.Windows.Forms.ToolStripMenuItem DillatationWhiteBackground;
+        private System.Windows.Forms.ToolStripMenuItem DilationBlackBackground;
     }
 }
 

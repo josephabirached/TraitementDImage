@@ -15,10 +15,21 @@ namespace TraitementDimage
     {
 
         static public bool OK = false;
+
         static public int threshold = 0;
-        // 0 state is RGB
-        // 1 state is Greyscale
-        // 2 state is Binary
+        /* 
+         * Type 1 => Hex
+         * Type 2 => Square
+         * Default 0
+        */
+        static public int elementType;
+        static public int elementSize;
+
+        /*
+         * 0 state is RGB
+         * 1 state is Greyscale
+         * 2 state is Binary 
+        */
         static private int img1State = 0;
         static private int img2State = 0;
         static private int img3State = 0;
@@ -26,7 +37,7 @@ namespace TraitementDimage
         public Form1()
         {
             InitializeComponent();
-            int[][] elt = ImageProcessingService.GetEltHex(2);
+            /*int[][] elt = ImageProcessingService.GetEltHex(2);
             for (int i = 0; i < elt.Length; i++)
             {
                 for (int j = 0; j < elt.Length; j++)
@@ -54,7 +65,7 @@ namespace TraitementDimage
                     Console.Write(elt2[i][j] + " ");
                 }
                 Console.WriteLine();
-            }
+            }*/
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -62,7 +73,7 @@ namespace TraitementDimage
 
         }
 
-        //Addition
+        // Addition of 2 images
         private void additionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string title="";
@@ -98,7 +109,7 @@ namespace TraitementDimage
 
         }
 
-        //Soustraction
+        // Substraction of 2 images
         private void soustractionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string title = "";
@@ -138,6 +149,7 @@ namespace TraitementDimage
             
         }
 
+        // Open image
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!radioButton3.Checked)
@@ -160,10 +172,12 @@ namespace TraitementDimage
                         {
                             if (radioButton1.Checked)
                             {
+                                img1State = 0;
                                 pictureBox1.Image = Image.FromFile(filePath);
                             }
                             else if (radioButton2.Checked)
                             {
+                                img2State = 0;
                                 pictureBox2.Image = Image.FromFile(filePath);
                             }
                         }                    
@@ -179,55 +193,37 @@ namespace TraitementDimage
             }
         }
 
+        // Convert an image to Greyscale
         private void grisToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(radioButton1.Checked && radioButton1.Image == null)
+            PictureBox selected = GetSelectedBox();
+            if (selected.Image == null)
             {
-                string message = "Image 1 should not be empty!";
-                string title = "Error";
-                MessageBox.Show(message, title);
-                return;
-            }
-            else if (radioButton2.Checked && radioButton2.Image == null)
-            {
-                string message = "Image 2 should not be empty!";
+                string message = "The selected image should not be empty!";
                 string title = "Error";
                 MessageBox.Show(message, title);
                 return;
             }
 
-            if (radioButton1.Checked)
-            {
-                pictureBox1.Image = ImageProcessingService.ConvertBitmapToGrayscale(new Bitmap(pictureBox1.Image));
-                img1State = 1;
-            }
-            else if (radioButton2.Checked)
-            {
-                pictureBox2.Image = ImageProcessingService.ConvertBitmapToGrayscale(new Bitmap(pictureBox2.Image));
-                img2State = 1;
-            }
+            selected.Image = ImageProcessingService.ConvertBitmapToGrayscale(new Bitmap(selected.Image));
+            ChangeSelectedState(selected, 1);
         }
 
+        // Threshhold
         private void seuillageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string message;
             string title;
-            
-            if(radioButton1.Checked && img1State != 1)
+
+            PictureBox selected = GetSelectedBox();
+            if(selected.Image == null)
             {
-                message = "Image should be Greyscale!";
+                message = "The selected image should not be empty!";
                 title = "Error";
                 MessageBox.Show(message, title);
                 return;
             }
-            else if (radioButton2.Checked && img2State != 1)
-            {
-                message = "Image should be Greyscale!";
-                title = "Error";
-                MessageBox.Show(message, title);
-                return;
-            }
-            else if (radioButton2.Checked && img2State != 1)
+            if(GetSelectedState(selected) != 1 && GetSelectedState(selected) != 2)
             {
                 message = "Image should be Greyscale!";
                 title = "Error";
@@ -239,28 +235,189 @@ namespace TraitementDimage
             pop.ShowDialog(this);
             if (OK)
             {
-                if (radioButton1.Checked)
-                {
-                    pictureBox1.Image = ImageProcessingService.Threshhold(new Bitmap(pictureBox1.Image), threshold);
-                    img1State = 2;
-                }
-                else if (radioButton2.Checked)
-                {
-                    pictureBox2.Image = ImageProcessingService.Threshhold(new Bitmap(pictureBox2.Image), threshold);
-                    img2State = 2;
-                }
-                else
-                {
-                    pictureBox3.Image = ImageProcessingService.Threshhold(new Bitmap(pictureBox3.Image), threshold);
-                    img3State = 2;
-                }
+                OK = false;
+                selected.Image = ImageProcessingService.Threshhold(new Bitmap(selected.Image), threshold);
+                ChangeSelectedState(selected, 2);
             }
         }
 
         //Erosion white background
-        private void whiteBackgroundToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ErosionWhiteBackground_Click(object sender, EventArgs e)
         {
-            
+
+            Erosion(1);
         }
+
+        // Erosion black background
+        private void ErosionBlackBackground_Click(object sender, EventArgs e)
+        {
+            Erosion(2);
+        }
+
+        //Dilatation white background
+        private void DillatationWhiteBackground_Click(object sender, EventArgs e)
+        {
+
+            Dilatation(1);
+        }
+
+        // Dilatation black background
+        private void DilatationBlackBackground_Click(object sender, EventArgs e)
+        {
+
+            Dilatation(2);
+        }
+
+
+        //Erosion
+        private void Erosion(int type)
+        {
+            PictureBox selected = GetSelectedBox();
+            if (selected.Image == null)
+            {
+                string message = "Selected image should not be empty!";
+                string title = "Error";
+                MessageBox.Show(message, title);
+                return;
+            }
+
+            if (GetSelectedState(selected) != 2)
+            {
+                string message = "The image must be converted to binary before erosion!";
+                string title = "Error";
+                MessageBox.Show(message, title);
+                return;
+            }
+
+            if(type == 1)
+            {
+                ImageProcessingService.SetWhiteBackground();
+            }
+            else
+            {
+                ImageProcessingService.SetBlackBackground();
+
+            }
+            
+            ErosionDilatationPopup pop = new ErosionDilatationPopup("Erosion detail");
+            pop.ShowDialog(this);
+            if (OK)
+            {
+                OK = false;
+
+                if (elementType == 1)
+                {
+                    int[][] elt = ImageProcessingService.GetEltHex(elementSize);
+                    selected.Image = ImageProcessingService.ErosionHex(new Bitmap(selected.Image), elt, elementSize);
+                }
+                else if (elementType == 2)
+                {
+                    int[][] elt = ImageProcessingService.GetEltCarre(elementSize);
+                    selected.Image = ImageProcessingService.ErosionCarre(new Bitmap(selected.Image), elt, elementSize);
+                }
+            }
+        }
+
+        //Dilatation
+        private void Dilatation(int type)
+        {
+            PictureBox selected = GetSelectedBox();
+            if (selected.Image == null)
+            {
+                string message = "Selected image should not be empty!";
+                string title = "Error";
+                MessageBox.Show(message, title);
+                return;
+            }
+
+            if (GetSelectedState(selected) != 2)
+            {
+                string message = "The image must be converted to binary before erosion!";
+                string title = "Error";
+                MessageBox.Show(message, title);
+                return;
+            }
+
+            if (type == 1)
+            {
+                ImageProcessingService.SetWhiteBackground();
+            }
+            else
+            {
+                ImageProcessingService.SetBlackBackground();
+
+            }
+
+            ErosionDilatationPopup pop = new ErosionDilatationPopup("Erosion detail");
+            pop.ShowDialog(this);
+            if (OK)
+            {
+                OK = false;
+
+                if (elementType == 1)
+                {
+                    int[][] elt = ImageProcessingService.GetEltHex(elementSize);
+                    selected.Image = ImageProcessingService.DillatationHex(new Bitmap(selected.Image), elt, elementSize);
+                }
+                else if (elementType == 2)
+                {
+                    int[][] elt = ImageProcessingService.GetEltCarre(elementSize);
+                    selected.Image = ImageProcessingService.DillatationCarre(new Bitmap(selected.Image), elt, elementSize);
+                }
+            }
+        }
+
+        // Get the selected picture box
+        private PictureBox GetSelectedBox()
+        {
+            if (radioButton1.Checked)
+            {
+                return pictureBox1;
+            }
+            else if (radioButton2.Checked)
+            {
+                return pictureBox2;
+            }
+            else
+            {
+                return pictureBox3;
+            }
+        }
+
+        //Changes the state of the currently selected picture
+        private void ChangeSelectedState(PictureBox selected, int newState)
+        {
+            if(selected == pictureBox1)
+            {
+                img1State = newState;
+            }
+            else if(selected == pictureBox2)
+            {
+                img2State = newState;
+            }
+            else if(selected == pictureBox3)
+            {
+                img3State = newState;
+            }
+        }
+
+        // Returns the state of the selected picture
+        private int GetSelectedState(PictureBox selected)
+        {
+            if (selected == pictureBox1)
+            {
+                return img1State;
+            }
+            else if (selected == pictureBox2)
+            {
+                return img2State;
+            }
+            else if (selected == pictureBox3)
+            {
+                return img3State;
+            }
+            return 0;
+        }
+
     }
 }

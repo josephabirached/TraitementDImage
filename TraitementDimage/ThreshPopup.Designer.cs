@@ -85,7 +85,7 @@ namespace TraitementDimage
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Name = "ThreshPopup";
-            this.Text = "Form2";
+            this.Text = "Threshhold detail";
             ((System.ComponentModel.ISupportInitialize)(this.ThreshDropDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
