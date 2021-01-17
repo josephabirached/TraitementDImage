@@ -20,6 +20,15 @@ namespace TraitementDimage
         public Form1()
         {
             InitializeComponent();
+            int[][] elt = ImageProcessingService.GetEltHex(2);
+            for(int i = 0; i < elt.Length; i++)
+            {
+                for(int j = 0; i < elt.Length; j++)
+                {
+                    Console.Write(elt[i][j]+" ");
+                }
+                Console.WriteLine();
+            }
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
