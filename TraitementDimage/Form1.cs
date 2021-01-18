@@ -20,6 +20,7 @@ namespace TraitementDimage
         static public bool OK = false;
 
         static public int threshold = 0;
+        static public int thresholdType = 0;
         static public int iterations = 0;
         
         static public int elementSize;
@@ -571,28 +572,10 @@ namespace TraitementDimage
                 OK = false;
                 this.Cursor = WAIT;
                 backupImage(selectedNumb);
-                selected.Image = ImageProcessingService.Binarisation(new Bitmap(selected.Image), threshold);
+                selected.Image = ImageProcessingService.Threshold(new Bitmap(selected.Image), threshold, thresholdType);
                 ChangeSelectedState(selected, 2);
                 this.Cursor = DEFAULT;
             }
-        }
-
-        private void erosionToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            PictureBox selected;
-            int i;
-            (selected, i) = GetSelectedBox();
-            ImageProcessingService.SetWhiteBackground();
-            selected.Image = ImageProcessingService.ErosionHex(new Bitmap(selected.Image),1);
-        }
-
-        private void dilatationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            PictureBox selected;
-            int i;
-            (selected, i) = GetSelectedBox();
-            ImageProcessingService.SetBlackBackground();
-            selected.Image = ImageProcessingService.OuvertureHex(new Bitmap(selected.Image), 6);
         }
 
         private void lantuejoul(int background)

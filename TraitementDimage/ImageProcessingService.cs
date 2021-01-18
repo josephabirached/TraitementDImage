@@ -82,7 +82,7 @@ namespace TraitementDimage
             return bm;
         }
 
-        public static Bitmap Threshold(Bitmap bitmap, int topThresh, int bottomThresh)
+        public static Bitmap Threshold(Bitmap bitmap, int thresh, int type)
         {
             Bitmap bm = new Bitmap(bitmap);
 
@@ -92,13 +92,13 @@ namespace TraitementDimage
                 {
                     Color color = bm.GetPixel(x, y);
                     Color color1;
-                    if(color.R > topThresh)
+                    if(color.R > thresh && type == 1)
                     {
-                        color1 = Color.FromArgb(topThresh,topThresh,topThresh);
+                        color1 = Color.FromArgb(thresh,thresh,thresh);
                     }
-                    else if(color.R < bottomThresh)
+                    else if(color.R < thresh && type == 2)
                     {
-                        color1 = Color.FromArgb(bottomThresh, bottomThresh, bottomThresh);
+                        color1 = Color.FromArgb(thresh, thresh, thresh);
                     }
                     else
                     {

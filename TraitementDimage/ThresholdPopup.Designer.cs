@@ -29,20 +29,25 @@ namespace TraitementDimage
         /// </summary>
         private void InitializeComponent()
         {
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.thresholdValue = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            this.high = new System.Windows.Forms.RadioButton();
+            this.low = new System.Windows.Forms.RadioButton();
+            ((System.ComponentModel.ISupportInitialize)(this.thresholdValue)).BeginInit();
             this.SuspendLayout();
             // 
-            // numericUpDown2
+            // thresholdValue
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(186, 56);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown2.TabIndex = 3;
+            this.thresholdValue.Location = new System.Drawing.Point(186, 56);
+            this.thresholdValue.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.thresholdValue.Name = "thresholdValue";
+            this.thresholdValue.Size = new System.Drawing.Size(120, 20);
+            this.thresholdValue.TabIndex = 3;
             // 
             // label3
             // 
@@ -63,51 +68,51 @@ namespace TraitementDimage
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // radioButton1
+            // high
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(130, 106);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(97, 17);
-            this.radioButton1.TabIndex = 6;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Threshold High";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.high.AutoSize = true;
+            this.high.Location = new System.Drawing.Point(130, 106);
+            this.high.Name = "high";
+            this.high.Size = new System.Drawing.Size(97, 17);
+            this.high.TabIndex = 6;
+            this.high.TabStop = true;
+            this.high.Text = "Threshold High";
+            this.high.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // low
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(244, 106);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(95, 17);
-            this.radioButton2.TabIndex = 7;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Threshold Low";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.low.AutoSize = true;
+            this.low.Location = new System.Drawing.Point(244, 106);
+            this.low.Name = "low";
+            this.low.Size = new System.Drawing.Size(95, 17);
+            this.low.TabIndex = 7;
+            this.low.TabStop = true;
+            this.low.Text = "Threshold Low";
+            this.low.UseVisualStyleBackColor = true;
             // 
             // ThresholdPopup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(536, 230);
-            this.Controls.Add(this.radioButton2);
-            this.Controls.Add(this.radioButton1);
+            this.Controls.Add(this.low);
+            this.Controls.Add(this.high);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.numericUpDown2);
+            this.Controls.Add(this.thresholdValue);
             this.Name = "ThresholdPopup";
             this.Text = "Form2";
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thresholdValue)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.NumericUpDown thresholdValue;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton high;
+        private System.Windows.Forms.RadioButton low;
     }
 }

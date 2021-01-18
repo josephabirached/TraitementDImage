@@ -19,7 +19,20 @@ namespace TraitementDimage
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            if (high.Checked)
+            {
+                Form1.thresholdType = 1;
+                Form1.threshold = (int)thresholdValue.Value;
+                Form1.OK = true;
+                Close();
+            }
+            else if (low.Checked)
+            {
+                Form1.thresholdType = 2;
+                Form1.threshold = (int)thresholdValue.Value;
+                Form1.OK = true;
+                Close();
+            }
         }
     }
 }
