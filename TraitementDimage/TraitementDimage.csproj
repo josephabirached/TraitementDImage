@@ -58,6 +58,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="ThresholdPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ThresholdPopup.Designer.cs">
+      <DependentUpon>ThresholdPopup.cs</DependentUpon>
+    </Compile>
     <Compile Include="IterationTimes.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,17 +73,20 @@
     <Compile Include="ImageProcessingService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ThreshPopup.cs">
+    <Compile Include="BinairisationPopup.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ThreshPopup.Designer.cs">
-      <DependentUpon>ThreshPopup.cs</DependentUpon>
+    <Compile Include="BinairisationPopup.Designer.cs">
+      <DependentUpon>BinairisationPopup.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="ElementSizePopup.resx">
       <DependentUpon>ElementSizePopup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ThresholdPopup.resx">
+      <DependentUpon>ThresholdPopup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IterationTimes.resx">
       <DependentUpon>IterationTimes.cs</DependentUpon>
@@ -91,8 +100,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ThreshPopup.resx">
-      <DependentUpon>ThreshPopup.cs</DependentUpon>
+    <EmbeddedResource Include="BinairisationPopup.resx">
+      <DependentUpon>BinairisationPopup.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

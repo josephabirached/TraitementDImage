@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace TraitementDimage
 {
-    public partial class ThreshPopup : Form
+    public partial class BinairisationPopup : Form
     {
-        public ThreshPopup()
+        public BinairisationPopup()
         {
             InitializeComponent();
         }

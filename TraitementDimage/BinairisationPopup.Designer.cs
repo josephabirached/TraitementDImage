@@ -1,7 +1,7 @@
 ﻿
 namespace TraitementDimage
 {
-    partial class ThreshPopup
+    partial class BinairisationPopup
     {
         /// <summary>
         /// Required designer variable.
@@ -75,7 +75,7 @@ namespace TraitementDimage
             this.label2.Size = new System.Drawing.Size(0, 13);
             this.label2.TabIndex = 5;
             // 
-            // ThreshPopup
+            // BinairisationPopup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -84,8 +84,8 @@ namespace TraitementDimage
             this.Controls.Add(this.ThreshDropDown);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
-            this.Name = "ThreshPopup";
-            this.Text = "Threshhold detail";
+            this.Name = "BinairisationPopup";
+            this.Text = "Binarisation details";
             ((System.ComponentModel.ISupportInitialize)(this.ThreshDropDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

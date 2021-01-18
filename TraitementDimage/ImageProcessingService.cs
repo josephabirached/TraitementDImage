@@ -54,7 +54,7 @@ namespace TraitementDimage
             return bm;
         }
 
-        public static Bitmap Threshhold(Bitmap bitmap, int thresh)
+        public static Bitmap Binarisation(Bitmap bitmap, int thresh)
         {
             // Make a Bitmap24 object.
             Bitmap bm = new Bitmap(bitmap);
@@ -79,6 +79,35 @@ namespace TraitementDimage
             }
 
             // Return bitmap
+            return bm;
+        }
+
+        public static Bitmap Threshold(Bitmap bitmap, int topThresh, int bottomThresh)
+        {
+            Bitmap bm = new Bitmap(bitmap);
+
+            for(int x=0; x< bitmap.Width; x++)
+            {
+                for (int y=0; y< bitmap.Height; y++)
+                {
+                    Color color = bm.GetPixel(x, y);
+                    Color color1;
+                    if(color.R > topThresh)
+                    {
+                        color1 = Color.FromArgb(topThresh,topThresh,topThresh);
+                    }
+                    else if(color.R < bottomThresh)
+                    {
+                        color1 = Color.FromArgb(bottomThresh, bottomThresh, bottomThresh);
+                    }
+                    else
+                    {
+                        color1 = color;
+                    }
+                    bm.SetPixel(x, y, color1);
+                }
+            }
+
             return bm;
         }
 
@@ -1271,6 +1300,7 @@ namespace TraitementDimage
             {
                 for (int y = 0; y < bitmap2.Height; y++)
                 {
+                    int z = bitmap1.GetPixel(x, y).R;
                     if (bitmap1.GetPixel(x, y).R == ONE && bitmap2.GetPixel(x, y).R == ZERO)
                     {
                         bm.SetPixel(x, y, Color.FromArgb(ONE, ONE, ONE));
@@ -1289,38 +1319,191 @@ namespace TraitementDimage
 
         }
 
-        //public Bitmap ErosionHex(Bitmap bitmap, int taille)
-        //{
-            
-        //}
-
-        public static Bitmap SkeletonByLantuejoul(Bitmap bitmap)
+        public static Bitmap ErosionHex(Bitmap bitmap, int taille)
         {
             Bitmap bm = new Bitmap(bitmap);
-            Bitmap tmp = new Bitmap(bitmap);
             for (int x = 0; x < bitmap.Width; x++)
             {
                 for (int y = 0; y < bitmap.Height; y++)
                 {
                     bm.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
-                    tmp.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
+                }
+            }
+            BitmapData bmData = bm.LockBits(new Rectangle(0, 0, bm.Width, bm.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            BitmapData tmpData = bitmap.LockBits(new Rectangle(0, 0, bm.Width, bm.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            int bytes = bm.Width * bm.Height;
+            byte[] bmbytes = new byte[bytes];
+            byte[] tmpbytes = new byte[bytes];
+
+            Marshal.Copy(bmData.Scan0, bmbytes, 0, bytes);
+            Marshal.Copy(tmpData.Scan0, tmpbytes, 0, bytes);
+            bool isOne = true;
+
+            for (int x = 0; x < bm.Width; x++)
+            {
+                for (int y = 0; y < bm.Height; y++)
+                {
+                    isOne = true;
+                    if (tmpbytes[x + y * bm.Width] == SEFER)
+                    {
+                        isOne = false;
+                    }
+                    else
+                    {
+                        for (int i = x - taille; i <= x + taille && isOne; i++)
+                        {
+                            for (int j = y - taille; j <= y + taille && isOne; j++)
+                            {
+                                if (i >= 0 && i < bm.Width
+                            && j >= 0 && j < bm.Height
+                            && tmpbytes[j * bm.Width + i] == SEFER)
+                                {
+                                    int rayon = (int)Math.Sqrt((i - x) * (i - x) + (j - y) * (j - y));
+                                    if (rayon <= taille)
+                                    {
+                                        isOne = false;
+                                    }
+
+                                }
+                            }
+                        }
+
+                    }
+                    if (isOne)
+                    {
+                        bmbytes[(x) + (y) * bm.Width] = WAHAD;
+                    }
+                    else
+                    {
+                        bmbytes[(x) + (y) * bm.Width] = SEFER;
+                    }
+
+                }
+            }
+            Marshal.Copy(bmbytes, 0, bmData.Scan0, bytes);
+            bm.UnlockBits(bmData);
+            bitmap.UnlockBits(tmpData);
+
+            return bm;
+        }
+
+        public static Bitmap OuvertureHex(Bitmap bitmap, int taille)
+        {
+            Bitmap erode = ErosionHex(bitmap, taille);
+
+            Bitmap bm = DilatationHex(erode, taille);
+
+            // Return bitmap
+            return bm;
+        }
+
+        public static Bitmap DilatationHex(Bitmap bitmap, int taille)
+        {
+            Bitmap bm = new Bitmap(bitmap);
+            for (int x = 0; x < bitmap.Width; x++)
+            {
+                for (int y = 0; y < bitmap.Height; y++)
+                {
+                    bm.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
+                }
+            }
+            BitmapData bmData = bm.LockBits(new Rectangle(0, 0, bm.Width, bm.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            BitmapData tmpData = bitmap.LockBits(new Rectangle(0, 0, bm.Width, bm.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            int bytes = bm.Width * bm.Height;
+            byte[] bmbytes = new byte[bytes];
+            byte[] tmpbytes = new byte[bytes];
+
+            Marshal.Copy(bmData.Scan0, bmbytes, 0, bytes);
+            Marshal.Copy(tmpData.Scan0, tmpbytes, 0, bytes);
+            bool isOne = false;
+
+            for (int x = 0; x < bm.Width; x++)
+            {
+                for (int y = 0; y < bm.Height; y++)
+                {
+                    isOne = false;
+                    if (tmpbytes[x + y * bm.Width] == WAHAD)
+                    {
+                        isOne = true;
+                    }
+                    else
+                    {
+                        for (int i = x - taille; i <= x + taille && !isOne; i++)
+                        {
+                            for (int j = y - taille; j <= y + taille && !isOne; j++)
+                            {
+                                if (i >= 0 && i < bm.Width
+                            && j >= 0 && j < bm.Height
+                            && tmpbytes[j * bm.Width + i] == WAHAD)
+                                {
+                                    int rayon = (int)Math.Sqrt((i - x) * (i - x) + (j - y) * (j - y));
+                                    if (rayon <= taille)
+                                    {
+                                        isOne = true;
+                                    }
+
+                                }
+                            }
+                        }
+
+                    }
+                    if (isOne)
+                    {
+                        bmbytes[(x) + (y) * bm.Width] = WAHAD;
+                    }
+                    else
+                    {
+                        bmbytes[(x) + (y) * bm.Width] = SEFER;
+                    }
+
+                }
+            }
+            Marshal.Copy(bmbytes, 0, bmData.Scan0, bytes);
+            bm.UnlockBits(bmData);
+            bitmap.UnlockBits(tmpData);
+
+            return bm;
+        }
+
+        public static bool CheckBitmapEmpty(Bitmap bitmap)
+        {
+            for (int x = 0; x < bitmap.Width; x++)
+            {
+                for (int y = 0; y < bitmap.Height; y++)
+                {
+                    if (bitmap.GetPixel(x, y).R == ONE)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        public static Bitmap SkeletonByLantuejoul(Bitmap bitmap)
+        {
+            Bitmap bm = new Bitmap(bitmap);
+            
+            for (int x = 0; x < bitmap.Width; x++)
+            {
+                for (int y = 0; y < bitmap.Height; y++)
+                {
+                    bm.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
                 }
             }
             bool stable = false;
             int lambda = 0;
-            int[,] lambdaB;
-            int[,] B = GetEltCarre(1);
+
             Bitmap erode;
             Bitmap ouvert;
 
-            while (!stable)
+            while (lambda<5)
             {
-                lambdaB = GetEltCarre(lambda);
-                erode = ErosionCarre(bitmap, lambdaB, lambda);
-                ouvert = OuvertureCarre(erode, B, 1);
-                tmp = Union(tmp, Differrence(erode, ouvert));
-                stable = CompareBitmaps(tmp, bm);
-                bm = new Bitmap(tmp);
+                erode = ErosionHex(bitmap, lambda);
+                ouvert = OuvertureHex(erode, 1);
+                bm = Union(bm, Differrence(erode, ouvert));
+                stable = CheckBitmapEmpty(erode);
+                
                 lambda++;
             }
             return bm;

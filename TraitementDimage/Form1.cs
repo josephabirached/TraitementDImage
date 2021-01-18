@@ -258,14 +258,14 @@ namespace TraitementDimage
                 return;
             }
 
-            ThreshPopup pop = new ThreshPopup();
+            BinairisationPopup pop = new BinairisationPopup();
                     pop.ShowDialog(this);
             if (OK)
             {
                 OK = false;
                 this.Cursor = WAIT;
                 backupImage(selectedNumb);
-                selected.Image = ImageProcessingService.Threshhold(new Bitmap(selected.Image), threshold);
+                selected.Image = ImageProcessingService.Binarisation(new Bitmap(selected.Image), threshold);
                 ChangeSelectedState(selected, 2);
                 this.Cursor = DEFAULT;
             }
@@ -539,6 +539,60 @@ namespace TraitementDimage
         private void thickeningBlackBackground_Click(object sender, EventArgs e)
         {
             thickening(2);
+        }
+
+        //Threshold
+        private void thresholdButton_Click(object sender, EventArgs e)
+        {
+            string message;
+            string title;
+            PictureBox selected;
+            int selectedNumb;
+            (selected, selectedNumb) = GetSelectedBox();
+            if (selected.Image == null)
+            {
+                message = "The selected image should not be empty!";
+                title = "Error";
+                MessageBox.Show(message, title);
+                return;
+            }
+            if (GetSelectedState(selected) != 1 && GetSelectedState(selected) != 2)
+            {
+                message = "Image should be Greyscale!";
+                title = "Error";
+                MessageBox.Show(message, title);
+                return;
+            }
+
+            ThresholdPopup pop = new ThresholdPopup();
+            pop.ShowDialog(this);
+            if (OK)
+            {
+                OK = false;
+                this.Cursor = WAIT;
+                backupImage(selectedNumb);
+                selected.Image = ImageProcessingService.Binarisation(new Bitmap(selected.Image), threshold);
+                ChangeSelectedState(selected, 2);
+                this.Cursor = DEFAULT;
+            }
+        }
+
+        private void erosionToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            PictureBox selected;
+            int i;
+            (selected, i) = GetSelectedBox();
+            ImageProcessingService.SetWhiteBackground();
+            selected.Image = ImageProcessingService.ErosionHex(new Bitmap(selected.Image),1);
+        }
+
+        private void dilatationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PictureBox selected;
+            int i;
+            (selected, i) = GetSelectedBox();
+            ImageProcessingService.SetBlackBackground();
+            selected.Image = ImageProcessingService.OuvertureHex(new Bitmap(selected.Image), 6);
         }
 
         private void lantuejoul(int background)
