@@ -467,20 +467,20 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == WAHAD &&    //(x,y)
-                            bmbytes[bm.Height * (y - 1) + (x + 1)] == WAHAD && //(x+1,y-1)
-                            bmbytes[bm.Height * y + (x + 1)] == WAHAD &&     //(x+1,y)
-                            bmbytes[bm.Height * (y + 1) + (x + 1)] == WAHAD &&//(x+1,y+1)
-                            bmbytes[bm.Height * (y - 1) + (x - 1)] == SEFER && //(x-1,y-1)
-                            bmbytes[bm.Height * y + (x - 1)] == SEFER &&     //(x-1,y)
-                            bmbytes[bm.Height * (y + 1) + (x - 1)] == SEFER)         //(x-1,y+1)
+                        if (bmbytes[bm.Width * y + x] == WAHAD &&    //(x,y)
+                            bmbytes[bm.Width * (y - 1) + (x + 1)] == WAHAD && //(x+1,y-1)
+                            bmbytes[bm.Width * y + (x + 1)] == WAHAD &&     //(x+1,y)
+                            bmbytes[bm.Width * (y + 1) + (x + 1)] == WAHAD &&//(x+1,y+1)
+                            bmbytes[bm.Width * (y - 1) + (x - 1)] == SEFER && //(x-1,y-1)
+                            bmbytes[bm.Width * y + (x - 1)] == SEFER &&     //(x-1,y)
+                            bmbytes[bm.Width * (y + 1) + (x - 1)] == SEFER)         //(x-1,y+1)
                         {
 
-                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                            tmpbytes[(x) + (y) * bm.Width] = SEFER;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -496,20 +496,20 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == WAHAD &&
-                            bmbytes[bm.Height * y + (x + 1)] == WAHAD &&
-                            bmbytes[bm.Height * y + (x - 1)] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + (x)] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + (x - 1)] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + x] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + (x + 1)] == WAHAD)
+                        if (bmbytes[bm.Width * y + x] == WAHAD &&
+                            bmbytes[bm.Width * y + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Width * y + (x - 1)] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + (x)] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + (x - 1)] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + x] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + (x + 1)] == WAHAD)
                         {
 
-                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                            tmpbytes[(x) + (y) * bm.Width] = SEFER;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -524,20 +524,20 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + (x - 1)] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + x] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + x] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + (x + 1)] == WAHAD)
+                        if (bmbytes[bm.Width * y + x] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + (x - 1)] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + x] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + x] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + (x + 1)] == WAHAD)
                         {
 
-                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                            tmpbytes[(x) + (y) * bm.Width] = SEFER;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -551,20 +551,20 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == WAHAD &&
-                            bmbytes[bm.Height * y + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * y + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + x] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + x] == WAHAD)
+                        if (bmbytes[bm.Width * y + x] == WAHAD &&
+                            bmbytes[bm.Width * y + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * y + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + x] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + x] == WAHAD)
                         {
 
-                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                            tmpbytes[(x) + (y) * bm.Width] = SEFER;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -578,20 +578,20 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == WAHAD &&
-                            bmbytes[bm.Height * y + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * y + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + (x - 1)] == WAHAD)
+                        if (bmbytes[bm.Width * y + x] == WAHAD &&
+                            bmbytes[bm.Width * y + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * y + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + (x - 1)] == WAHAD)
                         {
 
-                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                            tmpbytes[(x) + (y) * bm.Width] = SEFER;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -605,20 +605,20 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == WAHAD &&
-                            bmbytes[bm.Height * y + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * y + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + x] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + x] == SEFER)
+                        if (bmbytes[bm.Width * y + x] == WAHAD &&
+                            bmbytes[bm.Width * y + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * y + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + x] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + x] == SEFER)
                         {
 
-                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                            tmpbytes[(x) + (y) * bm.Width] = SEFER;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -632,20 +632,20 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + x] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + (x + 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + x] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + (x - 1)] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + (x + 1)] == SEFER)
+                        if (bmbytes[bm.Width * y + x] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + x] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + x] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + (x - 1)] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + (x + 1)] == SEFER)
                         {
 
-                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                            tmpbytes[(x) + (y) * bm.Width] = SEFER;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -659,20 +659,20 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + x] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + x] == SEFER &&
-                            bmbytes[bm.Height * y + (x + 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + (x + 1)] == WAHAD &&
-                            bmbytes[bm.Height * y + (x - 1)] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + (x - 1)] == SEFER)
+                        if (bmbytes[bm.Width * y + x] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + x] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + x] == SEFER &&
+                            bmbytes[bm.Width * y + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Width * y + (x - 1)] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + (x - 1)] == SEFER)
                         {
 
-                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                            tmpbytes[(x) + (y) * bm.Width] = SEFER;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -715,20 +715,20 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == SEFER &&    //(x,y)
-                            bmbytes[bm.Height * (y - 1) + (x + 1)] == WAHAD && //(x+1,y-1)
-                            bmbytes[bm.Height * y + (x + 1)] == WAHAD &&     //(x+1,y)
-                            bmbytes[bm.Height * (y + 1) + (x + 1)] == WAHAD &&//(x+1,y+1)
-                            bmbytes[bm.Height * (y - 1) + (x - 1)] == SEFER && //(x-1,y-1)
-                            bmbytes[bm.Height * y + (x - 1)] == SEFER &&     //(x-1,y)
-                            bmbytes[bm.Height * (y + 1) + (x - 1)] == SEFER)         //(x-1,y+1)
+                        if (bmbytes[bm.Width * y + x] == SEFER &&    //(x,y)
+                            bmbytes[bm.Width * (y - 1) + (x + 1)] == WAHAD && //(x+1,y-1)
+                            bmbytes[bm.Width * y + (x + 1)] == WAHAD &&     //(x+1,y)
+                            bmbytes[bm.Width * (y + 1) + (x + 1)] == WAHAD &&//(x+1,y+1)
+                            bmbytes[bm.Width * (y - 1) + (x - 1)] == SEFER && //(x-1,y-1)
+                            bmbytes[bm.Width * y + (x - 1)] == SEFER &&     //(x-1,y)
+                            bmbytes[bm.Width * (y + 1) + (x - 1)] == SEFER)         //(x-1,y+1)
                         {
 
-                            tmpbytes[(x) + (y) * bm.Height] = WAHAD;
+                            tmpbytes[(x) + (y) * bm.Width] = WAHAD;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -744,20 +744,20 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == SEFER &&
-                            bmbytes[bm.Height * y + (x + 1)] == WAHAD &&
-                            bmbytes[bm.Height * y + (x - 1)] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + (x)] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + (x - 1)] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + x] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + (x + 1)] == WAHAD)
+                        if (bmbytes[bm.Width * y + x] == SEFER &&
+                            bmbytes[bm.Width * y + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Width * y + (x - 1)] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + (x)] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + (x - 1)] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + x] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + (x + 1)] == WAHAD)
                         {
 
-                            tmpbytes[(x) + (y) * bm.Height] = WAHAD;
+                            tmpbytes[(x) + (y) * bm.Width] = WAHAD;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -772,20 +772,20 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + (x - 1)] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + x] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + x] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + (x + 1)] == WAHAD)
+                        if (bmbytes[bm.Width * y + x] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + (x - 1)] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + x] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + x] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + (x + 1)] == WAHAD)
                         {
 
-                            tmpbytes[(x) + (y) * bm.Height] = WAHAD;
+                            tmpbytes[(x) + (y) * bm.Width] = WAHAD;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -799,20 +799,20 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == SEFER &&
-                            bmbytes[bm.Height * y + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * y + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + x] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + x] == WAHAD)
+                        if (bmbytes[bm.Width * y + x] == SEFER &&
+                            bmbytes[bm.Width * y + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * y + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + x] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + x] == WAHAD)
                         {
 
-                            tmpbytes[(x) + (y) * bm.Height] = WAHAD;
+                            tmpbytes[(x) + (y) * bm.Width] = WAHAD;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -826,20 +826,20 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == SEFER &&
-                            bmbytes[bm.Height * y + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * y + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + (x - 1)] == WAHAD)
+                        if (bmbytes[bm.Width * y + x] == SEFER &&
+                            bmbytes[bm.Width * y + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * y + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + (x - 1)] == WAHAD)
                         {
 
-                            tmpbytes[(x) + (y) * bm.Height] = WAHAD;
+                            tmpbytes[(x) + (y) * bm.Width] = WAHAD;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -853,20 +853,20 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == SEFER &&
-                            bmbytes[bm.Height * y + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * y + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + x] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + x] == SEFER)
+                        if (bmbytes[bm.Width * y + x] == SEFER &&
+                            bmbytes[bm.Width * y + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * y + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + x] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + x] == SEFER)
                         {
 
-                            tmpbytes[(x) + (y) * bm.Height] = WAHAD;
+                            tmpbytes[(x) + (y) * bm.Width] = WAHAD;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -880,20 +880,20 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + x] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + (x + 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + x] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + (x - 1)] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + (x + 1)] == SEFER)
+                        if (bmbytes[bm.Width * y + x] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + x] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + x] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + (x - 1)] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + (x + 1)] == SEFER)
                         {
 
-                            tmpbytes[(x) + (y) * bm.Height] = WAHAD;
+                            tmpbytes[(x) + (y) * bm.Width] = WAHAD;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -907,20 +907,20 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + x] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + x] == SEFER &&
-                            bmbytes[bm.Height * y + (x + 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + (x + 1)] == WAHAD &&
-                            bmbytes[bm.Height * y + (x - 1)] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + (x - 1)] == SEFER)
+                        if (bmbytes[bm.Width * y + x] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + x] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + x] == SEFER &&
+                            bmbytes[bm.Width * y + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Width * y + (x - 1)] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + (x - 1)] == SEFER)
                         {
 
-                            tmpbytes[(x) + (y) * bm.Height] = WAHAD;
+                            tmpbytes[(x) + (y) * bm.Width] = WAHAD;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -979,20 +979,20 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == WAHAD &&    //(x,y)
-                            bmbytes[bm.Height * (y - 1) + (x + 1)] == WAHAD && //(x+1,y-1)
-                            bmbytes[bm.Height * y + (x + 1)] == WAHAD &&     //(x+1,y)
-                            bmbytes[bm.Height * (y + 1) + (x + 1)] == WAHAD &&//(x+1,y+1)
-                            bmbytes[bm.Height * (y - 1) + (x - 1)] == SEFER && //(x-1,y-1)
-                            bmbytes[bm.Height * y + (x - 1)] == SEFER &&     //(x-1,y)
-                            bmbytes[bm.Height * (y + 1) + (x - 1)] == SEFER)         //(x-1,y+1)
+                        if (bmbytes[bm.Width * y + x] == WAHAD &&    //(x,y)
+                            bmbytes[bm.Width * (y - 1) + (x + 1)] == WAHAD && //(x+1,y-1)
+                            bmbytes[bm.Width * y + (x + 1)] == WAHAD &&     //(x+1,y)
+                            bmbytes[bm.Width * (y + 1) + (x + 1)] == WAHAD &&//(x+1,y+1)
+                            bmbytes[bm.Width * (y - 1) + (x - 1)] == SEFER && //(x-1,y-1)
+                            bmbytes[bm.Width * y + (x - 1)] == SEFER &&     //(x-1,y)
+                            bmbytes[bm.Width * (y + 1) + (x - 1)] == SEFER)         //(x-1,y+1)
                         {
                        
-                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                            tmpbytes[(x) + (y) * bm.Width] = SEFER;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -1008,19 +1008,19 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == WAHAD &&
-                            bmbytes[bm.Height * y + (x + 1)] == WAHAD &&
-                            bmbytes[bm.Height * y + (x - 1)] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + (x)] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + (x - 1)] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + x] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + (x + 1)] == WAHAD)
+                        if (bmbytes[bm.Width * y + x] == WAHAD &&
+                            bmbytes[bm.Width * y + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Width * y + (x - 1)] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + (x)] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + (x - 1)] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + x] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + (x + 1)] == WAHAD)
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                            tmpbytes[(x) + (y) * bm.Width] = SEFER;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -1035,19 +1035,19 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + (x - 1)] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + x] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + x] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + (x + 1)] == WAHAD)
+                        if (bmbytes[bm.Width * y + x] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + (x - 1)] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + x] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + x] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + (x + 1)] == WAHAD)
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                            tmpbytes[(x) + (y) * bm.Width] = SEFER;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -1061,19 +1061,19 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == WAHAD &&
-                            bmbytes[bm.Height * y + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * y + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + x] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + x] == WAHAD)
+                        if (bmbytes[bm.Width * y + x] == WAHAD &&
+                            bmbytes[bm.Width * y + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * y + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + x] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + x] == WAHAD)
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                            tmpbytes[(x) + (y) * bm.Width] = SEFER;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -1087,19 +1087,19 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == WAHAD &&
-                            bmbytes[bm.Height * y + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * (y - 1) + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * y + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + (x - 1)] == WAHAD)
+                        if (bmbytes[bm.Width * y + x] == WAHAD &&
+                            bmbytes[bm.Width * y + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * (y - 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * y + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + (x - 1)] == WAHAD)
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                            tmpbytes[(x) + (y) * bm.Width] = SEFER;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -1113,20 +1113,20 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == WAHAD &&
-                            bmbytes[bm.Height * y + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + (x + 1)] == SEFER &&
-                            bmbytes[bm.Height * y + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + x] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + x] == SEFER)
+                        if (bmbytes[bm.Width * y + x] == WAHAD &&
+                            bmbytes[bm.Width * y + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Width * y + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + x] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + x] == SEFER)
                         {
                             
-                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                            tmpbytes[(x) + (y) * bm.Width] = SEFER;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -1141,20 +1141,20 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + x] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + (x - 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + (x + 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + x] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + (x - 1)] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + (x + 1)] == SEFER)
+                        if (bmbytes[bm.Width * y + x] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + x] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + x] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + (x - 1)] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + (x + 1)] == SEFER)
                         {
 
-                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                            tmpbytes[(x) + (y) * bm.Width] = SEFER;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -1168,19 +1168,19 @@ namespace TraitementDimage
                 {
                     for (int y = taille; y < bitmap.Height - taille; y++)
                     {
-                        if (bmbytes[bm.Height * y + x] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + x] == WAHAD &&
-                            bmbytes[bm.Height * (y + 1) + x] == SEFER &&
-                            bmbytes[bm.Height * y + (x + 1)] == WAHAD &&
-                            bmbytes[bm.Height * (y - 1) + (x + 1)] == WAHAD &&
-                            bmbytes[bm.Height * y + (x - 1)] == SEFER &&
-                            bmbytes[bm.Height * (y + 1) + (x - 1)] == SEFER)
+                        if (bmbytes[bm.Width * y + x] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + x] == WAHAD &&
+                            bmbytes[bm.Width * (y + 1) + x] == SEFER &&
+                            bmbytes[bm.Width * y + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Width * (y - 1) + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Width * y + (x - 1)] == SEFER &&
+                            bmbytes[bm.Width * (y + 1) + (x - 1)] == SEFER)
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                            tmpbytes[(x) + (y) * bm.Width] = SEFER;
                         }
                         else
                         {
-                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                            tmpbytes[(x) + (y) * bm.Width] = bmbytes[(x) + (y) * bm.Width];
                         }
                     }
                 }
@@ -1233,6 +1233,8 @@ namespace TraitementDimage
 
             return result;
         }
+
+
 
         private static Bitmap Union(Bitmap bitmap1, Bitmap bitmap2)
         {
@@ -1287,7 +1289,10 @@ namespace TraitementDimage
 
         }
 
-
+        //public Bitmap ErosionHex(Bitmap bitmap, int taille)
+        //{
+            
+        //}
 
         public static Bitmap SkeletonByLantuejoul(Bitmap bitmap)
         {

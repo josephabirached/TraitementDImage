@@ -70,7 +70,6 @@ namespace TraitementDimage
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Name = "IterationTimes";
-            this.Text = "Form2";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

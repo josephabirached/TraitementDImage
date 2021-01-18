@@ -49,9 +49,49 @@ namespace TraitementDimage
             InitializeComponent();
         }
 
+        // Save the image
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            PictureBox selected;
+            int i;
+            (selected, i)= GetSelectedBox();
 
+            if(selected.Image == null)
+            {
+                String message = "Can't save an empty image!";
+                String title = "Error";
+                MessageBox.Show(message, title);
+                return;
+            }
+
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "JPeg Image|*.jpg|Bitmap Image|*.bmp|Gif Image|*.gif";
+            saveFileDialog1.Title = "Save an Image File";
+            saveFileDialog1.ShowDialog();
+            if (saveFileDialog1.FileName != "")
+            {
+                System.IO.FileStream fs =
+                    (System.IO.FileStream)saveFileDialog1.OpenFile();
+                switch (saveFileDialog1.FilterIndex)
+                {
+                    case 1:
+                        selected.Image.Save(fs,
+                          System.Drawing.Imaging.ImageFormat.Jpeg);
+                        break;
+
+                    case 2:
+                        selected.Image.Save(fs,
+                          System.Drawing.Imaging.ImageFormat.Bmp);
+                        break;
+
+                    case 3:
+                        selected.Image.Save(fs,
+                          System.Drawing.Imaging.ImageFormat.Gif);
+                        break;
+                }
+
+                fs.Close();
+            }
         }
 
         // Addition of 2 images
@@ -219,7 +259,7 @@ namespace TraitementDimage
             }
 
             ThreshPopup pop = new ThreshPopup();
-            pop.ShowDialog(this);
+                    pop.ShowDialog(this);
             if (OK)
             {
                 OK = false;

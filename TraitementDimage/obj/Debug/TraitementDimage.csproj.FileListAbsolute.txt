@@ -20,3 +20,4 @@ C:\Users\josep\OneDrive\Documents\Uni\Sem 7\Analyse d'image - Modélisation 3D\P
 C:\Users\josep\OneDrive\Documents\Uni\Sem 7\Analyse d'image - Modélisation 3D\Projet\TraitementDImage\TraitementDimage\obj\Debug\TraitementDimage.exe
 C:\Users\josep\OneDrive\Documents\Uni\Sem 7\Analyse d'image - Modélisation 3D\Projet\TraitementDImage\TraitementDimage\obj\Debug\TraitementDimage.pdb
 C:\Users\josep\OneDrive\Documents\Uni\Sem 7\Analyse d'image - Modélisation 3D\Projet\TraitementDImage\TraitementDimage\obj\Debug\TraitementDimage.ElementSizePopup.resources
+C:\Users\josep\OneDrive\Documents\Uni\Sem 7\Analyse d'image - Modélisation 3D\Projet\TraitementDImage\TraitementDimage\obj\Debug\TraitementDimage.IterationTimes.resources
