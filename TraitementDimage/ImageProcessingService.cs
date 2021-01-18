@@ -1482,31 +1482,334 @@ namespace TraitementDimage
 
         public static Bitmap SkeletonByLantuejoul(Bitmap bitmap)
         {
-            Bitmap bm = new Bitmap(bitmap);
-            
+            Bitmap erode = new Bitmap(bitmap);
+            Bitmap erodeErode = new Bitmap(bitmap);
+            Bitmap dilateErode = new Bitmap(bitmap);
+            Bitmap result = new Bitmap(bitmap);
+
             for (int x = 0; x < bitmap.Width; x++)
             {
                 for (int y = 0; y < bitmap.Height; y++)
                 {
-                    bm.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
+                    erode.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
+                    erodeErode.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
+                    dilateErode.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
+                    result.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
                 }
             }
             bool stable = false;
             int lambda = 0;
 
-            Bitmap erode;
-            Bitmap ouvert;
+            BitmapData erodeData = erode.LockBits(new Rectangle(0, 0, erode.Width, erode.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            BitmapData erodeErodeData = erodeErode.LockBits(new Rectangle(0, 0, erode.Width, erode.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            BitmapData dilateErodeData = dilateErode.LockBits(new Rectangle(0, 0, erode.Width, erode.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            BitmapData tmpData = bitmap.LockBits(new Rectangle(0, 0, erode.Width, erode.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            BitmapData resultData = result.LockBits(new Rectangle(0, 0, erode.Width, erode.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            int bytes = erode.Width * erode.Height;
+            byte[] bmbytes = new byte[bytes];
+            byte[] bm1bytes = new byte[bytes];
+            byte[] bm2bytes = new byte[bytes];
+            byte[] tmpbytes = new byte[bytes];
+            byte[] resultbytes = new byte[bytes];
 
-            while (lambda<5)
+            Marshal.Copy(erodeData.Scan0, bmbytes, 0, bytes);
+            Marshal.Copy(erodeErodeData.Scan0, bm1bytes, 0, bytes);
+            Marshal.Copy(dilateErodeData.Scan0, bm2bytes, 0, bytes);
+            Marshal.Copy(tmpData.Scan0, tmpbytes, 0, bytes);
+            Marshal.Copy(resultData.Scan0, resultbytes, 0, bytes);
+
+
+            while (!stable || lambda < 10)
             {
-                erode = ErosionHex(bitmap, lambda);
-                ouvert = OuvertureHex(erode, 1);
-                bm = Union(bm, Differrence(erode, ouvert));
-                stable = CheckBitmapEmpty(erode);
-                
+                // erosion
+
+                bool isZero = false;
+
+                for (int x = 0; x < erode.Width; x++)
+                {
+                    for (int y = 0; y < erode.Height; y++)
+                    {
+                        isZero = false;
+                        if (tmpbytes[x + y * erode.Width] == SEFER)
+                        {
+                            isZero = true;
+                        }
+                        else
+                        {
+                            for (int i = x - lambda; i <= x + lambda && !isZero; i++)
+                            {
+                                for (int j = y - lambda; j <= y + lambda && !isZero; j++)
+                                {
+                                    if (i >= 0 && i < erode.Width
+                                && j >= 0 && j < erode.Height
+                                && tmpbytes[j * erode.Width + i] == SEFER)
+                                    {
+                                        int rayon = (int)Math.Sqrt((i - x) * (i - x) + (j - y) * (j - y));
+                                        if (rayon <= lambda)
+                                        {
+                                            isZero = true;
+                                        }
+
+                                    }
+                                }
+                            }
+
+                        }
+                        if (isZero)
+                        {
+                            bmbytes[(x) + (y) * erode.Width] = SEFER;
+                        }
+                        else
+                        {
+                            bmbytes[(x) + (y) * erode.Width] = WAHAD;
+                        }
+
+                    }
+                }
+
+                //ouverture
+
+                // erosion
+
+                isZero = false;
+
+                for (int x = 0; x < erode.Width; x++)
+                {
+                    for (int y = 0; y < erode.Height; y++)
+                    {
+                        isZero = false;
+                        if (bmbytes[x + y * erode.Width] == SEFER)
+                        {
+                            isZero = true;
+                        }
+                        else
+                        {
+                            for (int i = x - 1; i <= x + 1 && !isZero; i++)
+                            {
+                                for (int j = y - 1; j <= y + 1 && !isZero; j++)
+                                {
+                                    if (i >= 0 && i < erode.Width
+                                && j >= 0 && j < erode.Height
+                                && bmbytes[j * erode.Width + i] == SEFER)
+                                    {
+                                        int rayon = (int)Math.Sqrt((i - x) * (i - x) + (j - y) * (j - y));
+                                        if (rayon <= 1)
+                                        {
+                                            isZero = true;
+                                        }
+
+                                    }
+                                }
+                            }
+
+                        }
+                        if (isZero)
+                        {
+                            bm1bytes[(x) + (y) * erode.Width] = SEFER;
+                        }
+                        else
+                        {
+                            bm1bytes[(x) + (y) * erode.Width] = WAHAD;
+                        }
+
+                    }
+                }
+                bool isOne;
+                // dilatation
+                for (int x = 0; x < erode.Width; x++)
+                {
+                    for (int y = 0; y < erode.Height; y++)
+                    {
+                        isOne = false;
+                        if (bm1bytes[x + y * erode.Width] == WAHAD)
+                        {
+                            isOne = true;
+                        }
+                        else
+                        {
+                            for (int i = x - 1; i <= x + 1 && !isOne; i++)
+                            {
+                                for (int j = y - 1; j <= y + 1 && !isOne; j++)
+                                {
+                                    if (i >= 0 && i < erode.Width
+                                && j >= 0 && j < erode.Height
+                                && bm1bytes[j * erode.Width + i] == WAHAD)
+                                    {
+                                        int rayon = (int)Math.Sqrt((i - x) * (i - x) + (j - y) * (j - y));
+                                        if (rayon <= 1)
+                                        {
+                                            isOne = true;
+                                        }
+
+                                    }
+                                }
+                            }
+
+                        }
+                        if (isOne)
+                        {
+                            bm2bytes[(x) + (y) * erode.Width] = WAHAD;
+                        }
+                        else
+                        {
+                            bm2bytes[(x) + (y) * erode.Width] = SEFER;
+                        }
+
+                    }
+                }
+                bm2bytes = RoundEdges(bm2bytes, erode.Width, erode.Height);
+
+
+                // Diff and Union
+                bool isEqual = CompareByteArray(bmbytes, bm2bytes);
+                bool isEqual2 = CompareByteArray(bmbytes, tmpbytes);
+                resultbytes = CopyBytes(UnionBytes(resultbytes, DiffBytes(bmbytes, bm2bytes)));
+
+                stable = CheckByteArrayEmpty(bmbytes);
                 lambda++;
             }
-            return bm;
+            Marshal.Copy(resultbytes, 0, resultData.Scan0, bytes);
+            erode.UnlockBits(erodeData);
+            erodeErode.UnlockBits(erodeErodeData);
+            dilateErode.UnlockBits(dilateErodeData);
+            bitmap.UnlockBits(tmpData);
+            result.UnlockBits(resultData);
+
+
+            return result;
+        }
+
+        private static byte[] RoundEdges(byte[] bm2bytes, int width, int height)
+        {
+            byte[] res = CopyBytes(bm2bytes);
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (bm2bytes[(x) + (y) * width] == WAHAD)
+                    {
+                        // 0 0 0
+                        // 0 1 1
+                        // 0 1 1 
+                        if (
+                            bm2bytes[(x - 1) + (y - 1) * width] == SEFER &&
+                            bm2bytes[(x) + (y - 1) * width] == SEFER &&
+                            bm2bytes[(x + 1) + (y - 1) * width] == SEFER &&
+                            bm2bytes[(x - 1) + (y) * width] == SEFER &&
+                            bm2bytes[(x + 1) + (y) * width] == WAHAD &&
+                            bm2bytes[(x - 1) + (y + 1) * width] == SEFER &&
+                            bm2bytes[(x) + (y + 1) * width] == WAHAD &&
+                            bm2bytes[(x + 1) + (y + 1) * width] == WAHAD
+                            )
+                        {
+                            res[(x) + (y) * width] = SEFER;
+                        }
+                        // 0 0 0
+                        // 1 1 0
+                        // 1 1 0
+                        else if (
+                            bm2bytes[(x - 1) + (y - 1) * width] == SEFER &&
+                            bm2bytes[(x) + (y - 1) * width] == SEFER &&
+                            bm2bytes[(x + 1) + (y - 1) * width] == SEFER &&
+                            bm2bytes[(x - 1) + (y) * width] == WAHAD &&
+                            bm2bytes[(x + 1) + (y) * width] == SEFER &&
+                            bm2bytes[(x - 1) + (y + 1) * width] == WAHAD &&
+                            bm2bytes[(x) + (y + 1) * width] == WAHAD &&
+                            bm2bytes[(x + 1) + (y + 1) * width] == SEFER
+                            )
+                        {
+                            res[(x) + (y) * width] = SEFER;
+                        }
+                        // 1 1 0
+                        // 1 1 0
+                        // 0 0 0
+                        else if (
+                            bm2bytes[(x - 1) + (y - 1) * width] == WAHAD &&
+                            bm2bytes[(x) + (y - 1) * width] == WAHAD &&
+                            bm2bytes[(x + 1) + (y - 1) * width] == SEFER &&
+                            bm2bytes[(x - 1) + (y) * width] == WAHAD &&
+                            bm2bytes[(x + 1) + (y) * width] == SEFER &&
+                            bm2bytes[(x - 1) + (y + 1) * width] == SEFER &&
+                            bm2bytes[(x) + (y + 1) * width] == SEFER &&
+                            bm2bytes[(x + 1) + (y + 1) * width] == SEFER
+                            )
+                        {
+                            res[(x) + (y) * width] = SEFER;
+                        }
+                        // 0 1 1
+                        // 0 1 1
+                        // 0 0 0
+                        else if (
+                            bm2bytes[(x - 1) + (y - 1) * width] == SEFER &&
+                            bm2bytes[(x) + (y - 1) * width] == WAHAD &&
+                            bm2bytes[(x + 1) + (y - 1) * width] == WAHAD &&
+                            bm2bytes[(x - 1) + (y) * width] == SEFER &&
+                            bm2bytes[(x + 1) + (y) * width] == WAHAD &&
+                            bm2bytes[(x - 1) + (y + 1) * width] == SEFER &&
+                            bm2bytes[(x) + (y + 1) * width] == SEFER &&
+                            bm2bytes[(x + 1) + (y + 1) * width] == SEFER
+                            )
+                        {
+                            res[(x) + (y) * width] = SEFER;
+                        }
+
+
+
+                    }
+
+
+
+                }
+            }
+            return res;
+        }
+
+        private static bool CheckByteArrayEmpty(byte[] bmbytes)
+        {
+            for (int i = 0; i < bmbytes.Length; i++)
+            {
+                if (bmbytes[i] == WAHAD)
+                {
+                    return false;
+                }
+
+            }
+            return true;
+        }
+
+        private static byte[] UnionBytes(byte[] b1, byte[] b2)
+        {
+            byte[] res = new byte[b1.Length];
+            for (int i = 0; i < b1.Length; i++)
+            {
+                if (b1[i] == WAHAD || b2[i] == WAHAD)
+                {
+                    res[i] = WAHAD;
+                }
+                else
+                {
+                    res[i] = SEFER;
+                }
+            }
+            return res;
+        }
+
+        private static byte[] DiffBytes(byte[] bmbytes, byte[] bm2bytes)
+        {
+            byte[] res = new byte[bmbytes.Length];
+            for (int i = 0; i < bmbytes.Length; i++)
+            {
+                if (bmbytes[i] == WAHAD && bm2bytes[i] == SEFER)
+                {
+                    res[i] = WAHAD;
+                }
+                else
+                {
+                    res[i] = SEFER;
+                }
+            }
+            return res;
         }
 
 
