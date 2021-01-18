@@ -20,6 +20,7 @@ namespace TraitementDimage
         static public bool OK = false;
 
         static public int threshold = 0;
+        static public int iterations = 0;
         
         static public int elementSize;
 
@@ -280,54 +281,6 @@ namespace TraitementDimage
             ClosingImage(2);
         }
 
-        // Thinning Element 1 White
-        private void thinningWhiteElement1_Click(object sender, EventArgs e)
-        {
-            thinning(1, 0);
-        }
-
-        // Thinning Element 1 Black
-        private void thinningBlackElement1_Click(object sender, EventArgs e)
-        {
-            thinning(2, 0);
-        }
-
-        // Thinning Element 2 White
-        private void thinningWhiteElement2_Click(object sender, EventArgs e)
-        {
-            thinning(1, 1);
-        }
-
-        //Thinning Element 2 Black
-        private void thinningBlackElement2_Click(object sender, EventArgs e)
-        {
-            thinning(2, 1);
-        }
-
-        // Thickening Element 1 White
-        private void ThickeningWhiteElement1_Click(object sender, EventArgs e)
-        {
-            thickening(1, 0);
-        }
-
-        //Thickening Element 1 Black
-        private void ThickeningBlackElement1_Click(object sender, EventArgs e)
-        {
-            thickening(2, 0);
-        }
-
-        //Thickening Element 2 White
-        private void ThickeningWhiteElement2_Click(object sender, EventArgs e)
-        {
-            thickening(1, 1);
-        }
-
-        // Thickening Element 2 Black
-        private void ThickeningBlackElement2_Click(object sender, EventArgs e)
-        {
-            thickening(2, 1);
-        }
-
 
         //Erosion
         private void Erosion(int type)
@@ -508,11 +461,50 @@ namespace TraitementDimage
             }
         }
 
-        private void lantuejoulToolStripMenuItem_Click(object sender, EventArgs e)
+        private void lantuejoulBlackbackground_Click(object sender, EventArgs e)
+        {
+            lantuejoul(2);
+        }
+
+        private void lantuejoulWhiteBackground_Click(object sender, EventArgs e)
+        {
+            lantuejoul(1);
+        }
+
+        private void whiteBackgroundToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            homotopique(1);
+        }
+
+        private void blackBackgroundToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            homotopique(2);
+        }
+
+        private void thinningWhiteBackground_Click(object sender, EventArgs e)
+        {
+            thinning(1);
+        }
+
+        private void thinningBlackBackground_Click(object sender, EventArgs e)
+        {
+            thinning(2);
+        }
+
+        private void thickeningWhiteBackground_Click(object sender, EventArgs e)
+        {
+            thickening(1);
+        }
+
+        private void thickeningBlackBackground_Click(object sender, EventArgs e)
+        {
+            thickening(2);
+        }
+
+        private void lantuejoul(int background)
         {
             PictureBox selected;
             int selectedNumb;
-            int background = 1;
             (selected, selectedNumb) = GetSelectedBox();
             if (selected.Image == null)
             {
@@ -547,7 +539,7 @@ namespace TraitementDimage
         }
 
         // Thinning 
-        private void thinning(int background, int element)
+        private void thinning(int background)
         {
             PictureBox selected;
             int selectedNumb;
@@ -578,23 +570,21 @@ namespace TraitementDimage
 
             }
 
-            int[,] elt;
-            if(element == 1)
+            byte[,] elt = ImageProcessingService.GetThinningElt(1);
+            IterationTimes pop = new IterationTimes("Thinning details");
+            pop.ShowDialog(this);
+            if (OK)
             {
-                elt = ImageProcessingService.GetThinningElt(1);
+                this.Cursor = WAIT;
+                backupImage(selectedNumb);
+                selected.Image = ImageProcessingService.ThinningCarre(new Bitmap(selected.Image), elt, iterations);
+                this.Cursor = DEFAULT;
             }
-            else
-            {
-                elt = ImageProcessingService.GetThinningElt(2);
-            }
-            this.Cursor = WAIT;
-            backupImage(selectedNumb);
-            selected.Image = ImageProcessingService.ThinningCarre(new Bitmap(selected.Image), elt);
-            this.Cursor = DEFAULT;
+
         }
 
         //Thickening
-        private void thickening(int background, int element)
+        private void thickening(int background)
         {
             PictureBox selected;
             int selectedNumb;
@@ -625,19 +615,17 @@ namespace TraitementDimage
 
             }
 
-            int[,] elt;
-            if (element == 1)
+
+            IterationTimes pop = new IterationTimes("Thickening details");
+            pop.ShowDialog(this);
+            if (OK)
             {
-                elt = ImageProcessingService.GetThickeningElt(1);
+                this.Cursor = WAIT;
+                backupImage(selectedNumb);
+                selected.Image = ImageProcessingService.ThickeningCarre(new Bitmap(selected.Image),iterations);
+                this.Cursor = DEFAULT;
             }
-            else
-            {
-                elt = ImageProcessingService.GetThickeningElt(2);
-            }
-            this.Cursor = WAIT;
-            backupImage(selectedNumb);
-            selected.Image = ImageProcessingService.ThickeningCarre(new Bitmap(selected.Image), elt);
-            this.Cursor = DEFAULT;
+
         }
 
         // Get the selected picture box
@@ -784,11 +772,10 @@ namespace TraitementDimage
         }
 
         // Amincisement homothopique
-        private void amincissementHomothopiqueToolStripMenuItem_Click(object sender, EventArgs e)
+        private void homotopique(int background)
         {
             PictureBox selected;
             int selectedNumb;
-            int background = 1;
             (selected, selectedNumb) = GetSelectedBox();
             if (selected.Image == null)
             {
@@ -818,7 +805,7 @@ namespace TraitementDimage
 
             this.Cursor = WAIT;
             backupImage(selectedNumb);
-            selected.Image = ImageProcessingService.SkeletonByThining(new Bitmap(selected.Image),25);
+            selected.Image = ImageProcessingService.SkeletonByThining(new Bitmap(selected.Image));
             this.Cursor = DEFAULT;
         }
     }

@@ -13,18 +13,24 @@ namespace TraitementDimage
     {
         public static int ONE = 255;
         public static int ZERO = 0;
-        public static int DC = -1;
+        public static byte DC = 1;
+        public static byte SEFER = 0;
+        public static byte WAHAD = 15;
 
         public static void SetWhiteBackground()
         {
             ONE = 0;
             ZERO = 255;
+            WAHAD = 0;
+            SEFER = 15;
         }
 
         public static void SetBlackBackground()
         {
             ONE = 255;
             ZERO = 0;
+            WAHAD = 15;
+            SEFER = 0;
         }
 
         public static Bitmap ConvertBitmapToGrayscale(Bitmap bitmap)
@@ -289,59 +295,9 @@ namespace TraitementDimage
 
         public static Bitmap OuvertureCarre(Bitmap bitmap, int[,] elt, int taille)
         {
-            Bitmap bm = new Bitmap(bitmap);
-
-            int width = taille * 2 + 1;
-            int height = width;
-            bool isZero = false;
-            for (int x = 0; x < bitmap.Width; x++)
-            {
-                for (int y = 0; y < bitmap.Height; y++)
-                {
-                    bm.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
-                }
-            }
-
-
-            // Process the pixels.
-            for (int x = taille; x < bitmap.Width - taille; x++)
-            {
-                for (int y = taille; y < bitmap.Height - taille; y++)
-                {
-                    isZero = false;
-                    for (int i = 0; i < width && !isZero; i++)
-                    {
-                        for (int j = 0; j < height && !isZero; j++)
-                        {
-                            if (elt[i, j] == ONE)
-                            {
-
-                                if (bitmap.GetPixel(x - taille + i, y - taille + j).R != ONE)//akalit
-                                {
-                                    isZero = true;
-                                }
-
-
-                            }
-                        }
-                    }
-                    if (!isZero)
-                    {
-                        for (int i = 0; i < width && !isZero; i++)
-                        {
-                            for (int j = 0; j < height && !isZero; j++)
-                            {
-                                if (elt[i, j] == ONE)
-                                {
-                                    bm.SetPixel(x, y, Color.FromArgb(ONE, ONE, ONE));
-                                }
-                            }
-                        }
-
-                    }
-
-                }
-            }
+            Bitmap erode = ErosionCarre(bitmap, elt, taille);
+            int[,] eltT = Traspose(elt);
+            Bitmap bm = DillatationCarre(erode, eltT, taille);
 
             // Return bitmap
             return bm;
@@ -383,33 +339,33 @@ namespace TraitementDimage
         // x 0 0
         // 1 1 0
         // x 1 x
-        public static int[,] GetThinningElt(int type = 0)
+        public static byte[,] GetThinningElt(int type = 0)
         {
 
 
-            int[,] result = new int[3, 3];
+            byte[,] result = new byte[3, 3];
             if (type == 0)
             {
-                result[0, 0] = ZERO;
-                result[0, 1] = ZERO;
-                result[0, 2] = ZERO;
+                result[0, 0] = SEFER;
+                result[0, 1] = SEFER;
+                result[0, 2] = SEFER;
                 result[1, 0] = DC;
-                result[1, 1] = ONE;
+                result[1, 1] = WAHAD;
                 result[1, 2] = DC;
-                result[2, 0] = ONE;
-                result[2, 1] = ONE;
-                result[2, 2] = ONE;
+                result[2, 0] = WAHAD;
+                result[2, 1] = WAHAD;
+                result[2, 2] = WAHAD;
             }
             else
             {
                 result[0, 0] = DC;
-                result[0, 1] = ZERO;
-                result[0, 2] = ZERO;
-                result[1, 0] = ONE;
-                result[1, 1] = ONE;
-                result[1, 2] = ZERO;
+                result[0, 1] = SEFER;
+                result[0, 2] = SEFER;
+                result[1, 0] = WAHAD;
+                result[1, 1] = WAHAD;
+                result[1, 2] = SEFER;
                 result[2, 0] = DC;
-                result[2, 1] = ONE;
+                result[2, 1] = WAHAD;
                 result[2, 2] = DC;
             }
 
@@ -417,155 +373,826 @@ namespace TraitementDimage
             return result;
         }
 
-        public static int[,] GetThickeningElt(int type = 0)
+       
+
+        private static byte[] CopyBytes(byte[] src)
         {
-
-
-            int[,] result = new int[3, 3];
-            if (type == 0)
+            byte[] copy = new byte[src.Length];
+            for(int i = 0; i < src.Length; i++)
             {
-                result[0, 0] = ZERO;
-                result[0, 1] = ZERO;
-                result[0, 2] = ZERO;
-                result[1, 0] = DC;
-                result[1, 1] = ZERO;
-                result[1, 2] = DC;
-                result[2, 0] = ONE;
-                result[2, 1] = ONE;
-                result[2, 2] = ONE;
+                copy[i] = src[i];
             }
-            else
+            return copy;
+        }
+        private static byte[] CopyBytes(byte[] src, byte[] dest)
+        {
+            
+            for (int i = 0; i < src.Length; i++)
             {
-                result[0, 0] = DC;
-                result[0, 1] = ZERO;
-                result[0, 2] = ZERO;
-                result[1, 0] = ONE;
-                result[1, 1] = ZERO;
-                result[1, 2] = ZERO;
-                result[2, 0] = DC;
-                result[2, 1] = ONE;
-                result[2, 2] = DC;
+                dest[i] = src[i];
             }
-
-
-            return result;
+            return dest;
         }
 
-
-        public static Bitmap ThinningCarre(Bitmap bitmap, int[,] elt)
+        public static Bitmap ThinningCarre(Bitmap bitmap, byte[,] elt, int iterations = 10)
         {
-            Bitmap bm = new Bitmap(bitmap);
-            int taille = 1;
-            int width = 3;
-            int height = width;
-
-           
-            bool isZero = true;
-            // Process the pixels.
-            for (int x = taille; x < bitmap.Width - taille; x++)
-            {
-                for (int y = taille; y < bitmap.Height - taille; y++)
-                {
-                    isZero = true;
-
-                    for (int i = 0; i < width && isZero; i++)
-                    {
-                        for (int j = 0; j < height && isZero; j++)
-                        {
-                            if (elt[j, i] != DC)
-                            {
-                                try
-                                {
-                                    if (bitmap.GetPixel(x - taille + i, y - taille + j).R != elt[j, i])
-                                    {
-                                        isZero = false;
-                                    }
-                                }
-                                catch (Exception ex) { }
-                            }
-                        }
-                    }
-                    if (isZero)
-                    {
-                        bm.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
-                    }
-
-                }
-            }
-            return bm;
-
-        }
-
-        public static Bitmap ThickeningCarre(Bitmap bitmap, int[,] elt)
-        {
-            Bitmap bm = new Bitmap(bitmap);
-            int taille = 1;
-            int width = 3;
-            int height = width;
-
-            for (int x = 0; x < bitmap.Width; x++)
-            {
-                for (int y = 0; y < bitmap.Height; y++)
-                {
-                    bm.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
-                }
-            }
-            bool isOne = true;
-            // Process the pixels.
-            for (int x = taille; x < bitmap.Width - taille; x++)
-            {
-                for (int y = taille; y < bitmap.Height - taille; y++)
-                {
-                    isOne = true;
-
-                    for (int i = 0; i < width && isOne; i++)
-                    {
-                        for (int j = 0; j < height && isOne; j++)
-                        {
-                            if (elt[j, i] != DC)
-                            {
-                                try
-                                {
-                                    if (bitmap.GetPixel(x - taille + i, y - taille + j).R != elt[j, i])
-                                    {
-                                        isOne = false;
-                                    }
-                                }
-                                catch (Exception ex) { }
-                            }
-                        }
-                    }
-                    if (isOne)
-                    {
-                        bm.SetPixel(x, y, Color.FromArgb(ONE, ONE, ONE));
-                    }
-
-                }
-            }
-            return bm;
-
-        }
-
-        public static Bitmap SkeletonByThining(Bitmap bitmap, int iteration = 4)
-        {
-            int[,] elt = GetThinningElt();
             Bitmap bm = new Bitmap(bitmap);
             Bitmap tmp = new Bitmap(bitmap);
-            bool stable = false;
-            while (!stable)
-            {
-                stable = false;
+            int taille = 1;
+            bool isZero;
+            BitmapData bmData = bm.LockBits(new Rectangle(0, 0, bm.Width, bm.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            BitmapData tmpData = tmp.LockBits(new Rectangle(0, 0, bm.Width, bm.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            int bytes = bm.Width * bm.Height ;
+            byte[] bmbytes = new byte[bytes];
+            byte[] tmpbytes = new byte[bytes];
+            byte[,] localElt = elt;
+            Marshal.Copy(bmData.Scan0, bmbytes, 0, bytes);
+            Marshal.Copy(tmpData.Scan0, tmpbytes, 0, bytes);
 
-                for (int i = 0; i < 8; i++)
+            // Process the pixels.
+            /* for (int k = 0; k < iterations; k++)
+             {
+
+                 for (int l = 0; l < 8; l++)
+                 {
+                     localElt = elt;
+                     for (int x = taille; x < bitmap.Height - taille; x++)
+                     {
+                         for (int y = taille; y < bitmap.Height - taille; y++)
+                         {
+                             isZero = true;
+
+                             for (int i = 0; i < 3 && isZero; i++)
+                             {
+                                 for (int j = 0; j < 3 && isZero; j++)
+                                 {
+                                     if (elt[j, i] != DC)
+                                     {
+
+                                         if (bmbytes[(x - taille + i) + (y - taille + j) * bm.Height] != localElt[j, i])
+                                         //bitmap.getpixel(x - taille + i, y - taille + j).r != elt[j, i])
+                                         {
+                                             isZero = false;
+                                         }
+
+                                     }
+                                 }
+                             }
+                             if (isZero)
+                             {
+                                 tmpbytes[(x) + (y) * bm.Height] = SEFER;
+
+                             }
+                             else
+                             {
+                                 tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                             }
+
+                         }
+                     }
+                     bmbytes = CopyBytes(tmpbytes);
+                     localElt = MatrixRotation(localElt);
+                 }
+
+
+             }*/
+
+
+            for (int i = 0; i < iterations; i++)
+            {
+                // 0 . 1 bm->tmp
+                // 0 1 1
+                // 0 . 1
+                for (int x = taille; x < bitmap.Width - taille; x++)
                 {
-                    tmp = ThinningCarre(bitmap, elt);
-                    elt = MatrixRotation(elt);
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == WAHAD &&    //(x,y)
+                            bmbytes[bm.Height * (y - 1) + (x + 1)] == WAHAD && //(x+1,y-1)
+                            bmbytes[bm.Height * y + (x + 1)] == WAHAD &&     //(x+1,y)
+                            bmbytes[bm.Height * (y + 1) + (x + 1)] == WAHAD &&//(x+1,y+1)
+                            bmbytes[bm.Height * (y - 1) + (x - 1)] == SEFER && //(x-1,y-1)
+                            bmbytes[bm.Height * y + (x - 1)] == SEFER &&     //(x-1,y)
+                            bmbytes[bm.Height * (y + 1) + (x - 1)] == SEFER)         //(x-1,y+1)
+                        {
+
+                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
                 }
 
-                stable = CompareBitmaps(tmp, bm);
-                bm = new Bitmap(tmp);
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+
+
+
+                // 0 0 .
+                // 0 1 1
+                // . 1 1
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == WAHAD &&
+                            bmbytes[bm.Height * y + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Height * y + (x - 1)] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + (x)] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + (x - 1)] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + x] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + (x + 1)] == WAHAD)
+                        {
+
+                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+
+
+                // 0 0 0 bm->tmp
+                // . 1 .
+                // 1 1 1
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + (x - 1)] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + x] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + x] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + (x + 1)] == WAHAD)
+                        {
+
+                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+
+                // . 0 0
+                // 1 1 0
+                // 1 1 .
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == WAHAD &&
+                            bmbytes[bm.Height * y + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * y + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + x] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + x] == WAHAD)
+                        {
+
+                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+
+                // 1 . 0 bm->tmp
+                // 1 1 0
+                // 1 . 0
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == WAHAD &&
+                            bmbytes[bm.Height * y + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * y + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + (x - 1)] == WAHAD)
+                        {
+
+                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+
+                // 1 1 .
+                // 1 1 0
+                // . 0 0
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == WAHAD &&
+                            bmbytes[bm.Height * y + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * y + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + x] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + x] == SEFER)
+                        {
+
+                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+
+                // 1 1 1 bm->tmp
+                // . 1 .
+                // 0 0 0
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + x] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + x] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + (x - 1)] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + (x + 1)] == SEFER)
+                        {
+
+                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+
+                // . 1 1
+                // 0 1 1
+                // 0 0 .
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + x] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + x] == SEFER &&
+                            bmbytes[bm.Height * y + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Height * y + (x - 1)] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + (x - 1)] == SEFER)
+                        {
+
+                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
 
             }
+
+            Marshal.Copy(bmbytes,0, bmData.Scan0, bytes);
+            bm.UnlockBits(bmData);
+            tmp.UnlockBits(tmpData);
+
+            return bm;
+
+        }
+
+        public static Bitmap ThickeningCarre(Bitmap bitmap, int iterations = 4)
+        {
+            Bitmap bm = new Bitmap(bitmap);
+            Bitmap tmp = new Bitmap(bitmap);
+            int taille = 1;
+            bool isZero;
+            BitmapData bmData = bm.LockBits(new Rectangle(0, 0, bm.Width, bm.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            BitmapData tmpData = tmp.LockBits(new Rectangle(0, 0, bm.Width, bm.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            int bytes = bm.Width * bm.Height;
+            byte[] bmbytes = new byte[bytes];
+            byte[] tmpbytes = new byte[bytes];
+            Marshal.Copy(bmData.Scan0, bmbytes, 0, bytes);
+            Marshal.Copy(tmpData.Scan0, tmpbytes, 0, bytes);
+
+            
+
+
+            for (int i = 0; i < iterations; i++)
+            {
+                // 0 . 1 bm->tmp
+                // 0 0 1
+                // 0 . 1
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == SEFER &&    //(x,y)
+                            bmbytes[bm.Height * (y - 1) + (x + 1)] == WAHAD && //(x+1,y-1)
+                            bmbytes[bm.Height * y + (x + 1)] == WAHAD &&     //(x+1,y)
+                            bmbytes[bm.Height * (y + 1) + (x + 1)] == WAHAD &&//(x+1,y+1)
+                            bmbytes[bm.Height * (y - 1) + (x - 1)] == SEFER && //(x-1,y-1)
+                            bmbytes[bm.Height * y + (x - 1)] == SEFER &&     //(x-1,y)
+                            bmbytes[bm.Height * (y + 1) + (x - 1)] == SEFER)         //(x-1,y+1)
+                        {
+
+                            tmpbytes[(x) + (y) * bm.Height] = WAHAD;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+
+
+
+                // 0 0 .
+                // 0 0 1
+                // . 1 1
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == SEFER &&
+                            bmbytes[bm.Height * y + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Height * y + (x - 1)] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + (x)] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + (x - 1)] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + x] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + (x + 1)] == WAHAD)
+                        {
+
+                            tmpbytes[(x) + (y) * bm.Height] = WAHAD;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+
+
+                // 0 0 0 bm->tmp
+                // . 0 .
+                // 1 1 1
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + (x - 1)] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + x] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + x] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + (x + 1)] == WAHAD)
+                        {
+
+                            tmpbytes[(x) + (y) * bm.Height] = WAHAD;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+
+                // . 0 0
+                // 1 0 0
+                // 1 1 .
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == SEFER &&
+                            bmbytes[bm.Height * y + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * y + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + x] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + x] == WAHAD)
+                        {
+
+                            tmpbytes[(x) + (y) * bm.Height] = WAHAD;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+
+                // 1 . 0 bm->tmp
+                // 1 0 0
+                // 1 . 0
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == SEFER &&
+                            bmbytes[bm.Height * y + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * y + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + (x - 1)] == WAHAD)
+                        {
+
+                            tmpbytes[(x) + (y) * bm.Height] = WAHAD;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+
+                // 1 1 .
+                // 1 0 0
+                // . 0 0
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == SEFER &&
+                            bmbytes[bm.Height * y + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * y + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + x] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + x] == SEFER)
+                        {
+
+                            tmpbytes[(x) + (y) * bm.Height] = WAHAD;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+
+                // 1 1 1 bm->tmp
+                // . 0 .
+                // 0 0 0
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + x] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + x] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + (x - 1)] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + (x + 1)] == SEFER)
+                        {
+
+                            tmpbytes[(x) + (y) * bm.Height] = WAHAD;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+
+                // . 1 1
+                // 0 0 1
+                // 0 0 .
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + x] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + x] == SEFER &&
+                            bmbytes[bm.Height * y + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Height * y + (x - 1)] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + (x - 1)] == SEFER)
+                        {
+
+                            tmpbytes[(x) + (y) * bm.Height] = WAHAD;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+
+            }
+
+            Marshal.Copy(bmbytes, 0, bmData.Scan0, bytes);
+            bm.UnlockBits(bmData);
+            tmp.UnlockBits(tmpData);
+
+            return bm;
+
+        }
+
+        public static bool CompareByteArray(byte[] left, byte[] right)
+        {
+
+            for(int i = 0; i < left.Length; i++)
+            {
+                if (left[i] != right[i])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public static Bitmap SkeletonByThining(Bitmap bitmap)
+        {
+            Bitmap bm = new Bitmap(bitmap);
+            Bitmap tmp = new Bitmap(bitmap);
+            int taille = 1;
+
+            BitmapData bmData = bm.LockBits(new Rectangle(0, 0, bm.Width, bm.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            BitmapData tmpData = tmp.LockBits(new Rectangle(0, 0, bm.Width, bm.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            int bytes = bm.Width * bm.Height;
+            byte[] bmbytes = new byte[bytes];
+            byte[] tmpbytes = new byte[bytes];
+
+            Marshal.Copy(bmData.Scan0, bmbytes, 0, bytes);
+            Marshal.Copy(tmpData.Scan0, tmpbytes, 0, bytes);
+
+            bool isEqual = false;
+            byte[] prevbytes;
+
+
+            while (!isEqual)
+            {
+                prevbytes = CopyBytes(bmbytes);
+                // 0 . 1 bm->tmp
+                // 0 1 1
+                // 0 . 1
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == WAHAD &&    //(x,y)
+                            bmbytes[bm.Height * (y - 1) + (x + 1)] == WAHAD && //(x+1,y-1)
+                            bmbytes[bm.Height * y + (x + 1)] == WAHAD &&     //(x+1,y)
+                            bmbytes[bm.Height * (y + 1) + (x + 1)] == WAHAD &&//(x+1,y+1)
+                            bmbytes[bm.Height * (y - 1) + (x - 1)] == SEFER && //(x-1,y-1)
+                            bmbytes[bm.Height * y + (x - 1)] == SEFER &&     //(x-1,y)
+                            bmbytes[bm.Height * (y + 1) + (x - 1)] == SEFER)         //(x-1,y+1)
+                        {
+                       
+                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+
+
+
+                // 0 0 .
+                // 0 1 1
+                // . 1 1
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == WAHAD &&
+                            bmbytes[bm.Height * y + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Height * y + (x - 1)] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + (x)] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + (x - 1)] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + x] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + (x + 1)] == WAHAD)
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+
+
+                // 0 0 0 bm->tmp
+                // . 1 .
+                // 1 1 1
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + (x - 1)] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + x] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + x] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + (x + 1)] == WAHAD)
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+
+                // . 0 0
+                // 1 1 0
+                // 1 1 .
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == WAHAD &&
+                            bmbytes[bm.Height * y + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * y + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + x] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + x] == WAHAD)
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+
+                // 1 . 0 bm->tmp
+                // 1 1 0
+                // 1 . 0
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == WAHAD &&
+                            bmbytes[bm.Height * y + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * (y - 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * y + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + (x - 1)] == WAHAD)
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+
+                // 1 1 .
+                // 1 1 0
+                // . 0 0
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == WAHAD &&
+                            bmbytes[bm.Height * y + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + (x + 1)] == SEFER &&
+                            bmbytes[bm.Height * y + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + x] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + x] == SEFER)
+                        {
+                            
+                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+                
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+                
+
+                // 1 1 1 bm->tmp
+                // . 1 .
+                // 0 0 0
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + x] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + (x - 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + x] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + (x - 1)] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + (x + 1)] == SEFER)
+                        {
+
+                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+
+                // . 1 1
+                // 0 1 1
+                // 0 0 .
+                for (int x = taille; x < bitmap.Width - taille; x++)
+                {
+                    for (int y = taille; y < bitmap.Height - taille; y++)
+                    {
+                        if (bmbytes[bm.Height * y + x] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + x] == WAHAD &&
+                            bmbytes[bm.Height * (y + 1) + x] == SEFER &&
+                            bmbytes[bm.Height * y + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Height * (y - 1) + (x + 1)] == WAHAD &&
+                            bmbytes[bm.Height * y + (x - 1)] == SEFER &&
+                            bmbytes[bm.Height * (y + 1) + (x - 1)] == SEFER)
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = SEFER;
+                        }
+                        else
+                        {
+                            tmpbytes[(x) + (y) * bm.Height] = bmbytes[(x) + (y) * bm.Height];
+                        }
+                    }
+                }
+
+                bmbytes = CopyBytes(tmpbytes, bmbytes);
+                isEqual = CompareByteArray(prevbytes, bmbytes);
+
+            }
+
+            Marshal.Copy(bmbytes, 0, bmData.Scan0, bytes);
+            bm.UnlockBits(bmData);
+            tmp.UnlockBits(tmpData);
 
             return bm;
 
@@ -607,6 +1234,61 @@ namespace TraitementDimage
             return result;
         }
 
+        private static Bitmap Union(Bitmap bitmap1, Bitmap bitmap2)
+        {
+            Bitmap bm = new Bitmap(bitmap2.Width, bitmap2.Height);
+           
+            for (int x = 0; x < bitmap2.Width; x++)
+            {
+                for (int y = 0; y < bitmap2.Height; y++)
+                {
+                    if(bitmap1.GetPixel(x, y).R == ONE || bitmap2.GetPixel(x, y).R == ONE)
+                    {
+                        bm.SetPixel(x, y, Color.FromArgb(ONE, ONE, ONE));
+                    }
+                    else
+                    {
+                        bm.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
+                    }
+                    
+                }
+            }
+            
+            
+           
+            
+            return bm;
+
+        }
+
+        private static Bitmap Differrence(Bitmap bitmap1, Bitmap bitmap2)
+        {
+            Bitmap bm = new Bitmap(bitmap2.Width, bitmap2.Height);
+            
+            for (int x = 0; x < bitmap2.Width; x++)
+            {
+                for (int y = 0; y < bitmap2.Height; y++)
+                {
+                    if (bitmap1.GetPixel(x, y).R == ONE && bitmap2.GetPixel(x, y).R == ZERO)
+                    {
+                        bm.SetPixel(x, y, Color.FromArgb(ONE, ONE, ONE));
+                    }
+                    else
+                    {
+                        bm.SetPixel(x, y, Color.FromArgb(ZERO, ZERO, ZERO));
+                    }
+                }
+            }
+            
+           
+                
+            
+            return bm;
+
+        }
+
+
+
         public static Bitmap SkeletonByLantuejoul(Bitmap bitmap)
         {
             Bitmap bm = new Bitmap(bitmap);
@@ -628,11 +1310,10 @@ namespace TraitementDimage
 
             while (!stable)
             {
-                stable = false;
                 lambdaB = GetEltCarre(lambda);
                 erode = ErosionCarre(bitmap, lambdaB, lambda);
                 ouvert = OuvertureCarre(erode, B, 1);
-                tmp = Addition(tmp, Substraction(erode, ouvert));
+                tmp = Union(tmp, Differrence(erode, ouvert));
                 stable = CompareBitmaps(tmp, bm);
                 bm = new Bitmap(tmp);
                 lambda++;
@@ -641,9 +1322,9 @@ namespace TraitementDimage
         }
 
 
-        private static int[,] MatrixRotation(int[,] elt)
+        private static byte[,] MatrixRotation(byte[,] elt)
         {
-            int[,] result = new int[3, 3];
+            byte[,] result = new byte[3, 3];
             // center
             result[1, 1] = elt[1, 1];
             // fist line fill
