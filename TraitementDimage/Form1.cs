@@ -117,6 +117,14 @@ namespace TraitementDimage
             {
                 if(pictureBox1.Image.Height == pictureBox2.Image.Height && pictureBox1.Image.Width == pictureBox2.Image.Width)
                 {
+                    if(img1State < img2State)
+                    {
+                        img3State = img1State;
+                    }
+                    else
+                    {
+                        img3State = img2State;
+                    }
                     pictureBox3.Image = ImageProcessingService.Addition(new Bitmap(pictureBox1.Image), new Bitmap(pictureBox2.Image));
                 }
                 else
@@ -156,6 +164,14 @@ namespace TraitementDimage
             {
                 if (pictureBox1.Image.Height == pictureBox2.Image.Height && pictureBox1.Image.Width == pictureBox2.Image.Width)
                 {
+                    if (img1State < img2State)
+                    {
+                        img3State = img1State;
+                    }
+                    else
+                    {
+                        img3State = img2State;
+                    }
                     pictureBox3.Image = ImageProcessingService.Substraction(new Bitmap(pictureBox1.Image), new Bitmap(pictureBox2.Image));
                 }
                 else
@@ -275,27 +291,27 @@ namespace TraitementDimage
         //Erosion white background
         private void ErosionWhiteBackground_Click(object sender, EventArgs e)
         {
-            Erosion(1);
+            Erosion(1,1);
         }
 
         // Erosion black background
         private void ErosionBlackBackground_Click(object sender, EventArgs e)
         {
-            Erosion(2);
+            Erosion(2,1);
         }
 
         //Dilatation white background
         private void DillatationWhiteBackground_Click(object sender, EventArgs e)
         {
 
-            Dilatation(1);
+            Dilatation(1,1);
         }
 
         // Dilatation black background
         private void DilatationBlackBackground_Click(object sender, EventArgs e)
         {
 
-            Dilatation(2);
+            Dilatation(2,1);
         }
 
         // Opening white background
@@ -324,7 +340,7 @@ namespace TraitementDimage
 
 
         //Erosion
-        private void Erosion(int type)
+        private void Erosion(int background, int type)
         {
             PictureBox selected;
             int selectedNumb;
@@ -345,31 +361,39 @@ namespace TraitementDimage
                 return;
             }
 
-            if(type == 1)
+            if(background == 1)
             {
                 ImageProcessingService.SetWhiteBackground();
             }
-            else if (type == 2)
+            else if (background == 2)
             {
                 ImageProcessingService.SetBlackBackground();
 
             }
+
             ElementSizePopup pop = new ElementSizePopup("Erosion detail");
             pop.ShowDialog(this);
+            
             if (OK)
             {
                 OK = false;
                 this.Cursor = WAIT;
                 backupImage(selectedNumb);
-
-                int[,] elt = ImageProcessingService.GetEltCarre(elementSize);
-                selected.Image = ImageProcessingService.ErosionCarre(new Bitmap(selected.Image), elt, elementSize);
+                if(type == 1)
+                {
+                    int[,] elt = ImageProcessingService.GetEltCarre(elementSize);
+                    selected.Image = ImageProcessingService.ErosionCarre(new Bitmap(selected.Image), elt, elementSize);
+                }
+                else
+                {
+                    selected.Image = ImageProcessingService.ErosionHex(new Bitmap(selected.Image), elementSize);
+                }
                 this.Cursor = DEFAULT;
             }
         }
 
         //Dilatation
-        private void Dilatation(int type)
+        private void Dilatation(int background, int type)
         {
             PictureBox selected;
             int selectedNumb;
@@ -390,7 +414,7 @@ namespace TraitementDimage
                 return;
             }
 
-            if (type == 1)
+            if (background == 1)
             {
                 ImageProcessingService.SetWhiteBackground();
             }
@@ -399,15 +423,24 @@ namespace TraitementDimage
                 ImageProcessingService.SetBlackBackground();
 
             }
+            
             ElementSizePopup pop = new ElementSizePopup("Dilatation detail");
             pop.ShowDialog(this);
+
             if (OK)
             {
                 this.Cursor = WAIT;
                 OK = false;
                 backupImage(selectedNumb);
-                int[,] elt = ImageProcessingService.GetEltCarre(elementSize);
-                selected.Image = ImageProcessingService.DillatationCarre(new Bitmap(selected.Image), elt, elementSize);
+                if(type == 1)
+                {
+                    int[,] elt = ImageProcessingService.GetEltCarre(elementSize);
+                    selected.Image = ImageProcessingService.DillatationCarre(new Bitmap(selected.Image), elt, elementSize);
+                }
+                else
+                {
+                    selected.Image = ImageProcessingService.DilatationHex(new Bitmap(selected.Image), elementSize);
+                }
                 this.Cursor = DEFAULT;
             }
         }
@@ -576,6 +609,26 @@ namespace TraitementDimage
                 ChangeSelectedState(selected, 2);
                 this.Cursor = DEFAULT;
             }
+        }
+
+        private void hexErosionWhite_Click(object sender, EventArgs e)
+        {
+            Erosion(1, 2);
+        }
+
+        private void hexErosionBlack_Click(object sender, EventArgs e)
+        {
+            Erosion(2, 2);
+        }
+
+        private void hexDilatationWhite_Click(object sender, EventArgs e)
+        {
+            Dilatation(1, 2);
+        }
+
+        private void hexDilatationBlack_Click(object sender, EventArgs e)
+        {
+            Dilatation(2, 2);
         }
 
         private void lantuejoul(int background)

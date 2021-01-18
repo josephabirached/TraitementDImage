@@ -60,6 +60,7 @@
             this.thickeningWhiteBackground = new System.Windows.Forms.ToolStripMenuItem();
             this.thickeningBlackBackground = new System.Windows.Forms.ToolStripMenuItem();
             this.grisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.thresholdButton = new System.Windows.Forms.ToolStripMenuItem();
             this.fonctionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.squeletisationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lantuejoulToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,7 +76,12 @@
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.thresholdButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.hexErosionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hexDilatationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hexErosionWhite = new System.Windows.Forms.ToolStripMenuItem();
+            this.hexErosionBlack = new System.Windows.Forms.ToolStripMenuItem();
+            this.hexDilatationWhite = new System.Windows.Forms.ToolStripMenuItem();
+            this.hexDilatationBlack = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -155,7 +161,9 @@
             this.additionToolStripMenuItem,
             this.soustractionToolStripMenuItem,
             this.erosionToolStripMenuItem,
+            this.hexErosionToolStripMenuItem,
             this.dillatationToolStripMenuItem,
+            this.hexDilatationToolStripMenuItem,
             this.ouvertureToolStripMenuItem,
             this.fermetureToolStripMenuItem,
             this.amincissementToolStripMenuItem,
@@ -194,19 +202,19 @@
             this.ErosionBlackBackground});
             this.erosionToolStripMenuItem.Name = "erosionToolStripMenuItem";
             this.erosionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.erosionToolStripMenuItem.Text = "Erosion...";
+            this.erosionToolStripMenuItem.Text = "Square Erosion...";
             // 
             // erosionWhiteBackground
             // 
             this.erosionWhiteBackground.Name = "erosionWhiteBackground";
-            this.erosionWhiteBackground.Size = new System.Drawing.Size(172, 22);
+            this.erosionWhiteBackground.Size = new System.Drawing.Size(180, 22);
             this.erosionWhiteBackground.Text = "White background";
             this.erosionWhiteBackground.Click += new System.EventHandler(this.ErosionWhiteBackground_Click);
             // 
             // ErosionBlackBackground
             // 
             this.ErosionBlackBackground.Name = "ErosionBlackBackground";
-            this.ErosionBlackBackground.Size = new System.Drawing.Size(172, 22);
+            this.ErosionBlackBackground.Size = new System.Drawing.Size(180, 22);
             this.ErosionBlackBackground.Text = "Black background";
             this.ErosionBlackBackground.Click += new System.EventHandler(this.ErosionBlackBackground_Click);
             // 
@@ -217,19 +225,19 @@
             this.DilationBlackBackground});
             this.dillatationToolStripMenuItem.Name = "dillatationToolStripMenuItem";
             this.dillatationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.dillatationToolStripMenuItem.Text = "Dillatation...";
+            this.dillatationToolStripMenuItem.Text = "Square Dillatation...";
             // 
             // DillatationWhiteBackground
             // 
             this.DillatationWhiteBackground.Name = "DillatationWhiteBackground";
-            this.DillatationWhiteBackground.Size = new System.Drawing.Size(172, 22);
+            this.DillatationWhiteBackground.Size = new System.Drawing.Size(180, 22);
             this.DillatationWhiteBackground.Text = "White background";
             this.DillatationWhiteBackground.Click += new System.EventHandler(this.DillatationWhiteBackground_Click);
             // 
             // DilationBlackBackground
             // 
             this.DilationBlackBackground.Name = "DilationBlackBackground";
-            this.DilationBlackBackground.Size = new System.Drawing.Size(172, 22);
+            this.DilationBlackBackground.Size = new System.Drawing.Size(180, 22);
             this.DilationBlackBackground.Text = "Black background";
             this.DilationBlackBackground.Click += new System.EventHandler(this.DilatationBlackBackground_Click);
             // 
@@ -331,6 +339,13 @@
             this.grisToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.grisToolStripMenuItem.Text = "Gris";
             this.grisToolStripMenuItem.Click += new System.EventHandler(this.grisToolStripMenuItem_Click);
+            // 
+            // thresholdButton
+            // 
+            this.thresholdButton.Name = "thresholdButton";
+            this.thresholdButton.Size = new System.Drawing.Size(180, 22);
+            this.thresholdButton.Text = "Threshold";
+            this.thresholdButton.Click += new System.EventHandler(this.thresholdButton_Click);
             // 
             // fonctionToolStripMenuItem
             // 
@@ -464,12 +479,51 @@
             this.radioButton3.Text = "Result Image";
             this.radioButton3.UseVisualStyleBackColor = true;
             // 
-            // thresholdButton
+            // hexErosionToolStripMenuItem
             // 
-            this.thresholdButton.Name = "thresholdButton";
-            this.thresholdButton.Size = new System.Drawing.Size(180, 22);
-            this.thresholdButton.Text = "Threshold";
-            this.thresholdButton.Click += new System.EventHandler(this.thresholdButton_Click);
+            this.hexErosionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.hexErosionWhite,
+            this.hexErosionBlack});
+            this.hexErosionToolStripMenuItem.Name = "hexErosionToolStripMenuItem";
+            this.hexErosionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.hexErosionToolStripMenuItem.Text = "Hex Erosion";
+            // 
+            // hexDilatationToolStripMenuItem
+            // 
+            this.hexDilatationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.hexDilatationWhite,
+            this.hexDilatationBlack});
+            this.hexDilatationToolStripMenuItem.Name = "hexDilatationToolStripMenuItem";
+            this.hexDilatationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.hexDilatationToolStripMenuItem.Text = "Hex Dilatation";
+            // 
+            // hexErosionWhite
+            // 
+            this.hexErosionWhite.Name = "hexErosionWhite";
+            this.hexErosionWhite.Size = new System.Drawing.Size(180, 22);
+            this.hexErosionWhite.Text = "White Background";
+            this.hexErosionWhite.Click += new System.EventHandler(this.hexErosionWhite_Click);
+            // 
+            // hexErosionBlack
+            // 
+            this.hexErosionBlack.Name = "hexErosionBlack";
+            this.hexErosionBlack.Size = new System.Drawing.Size(180, 22);
+            this.hexErosionBlack.Text = "Black Background";
+            this.hexErosionBlack.Click += new System.EventHandler(this.hexErosionBlack_Click);
+            // 
+            // hexDilatationWhite
+            // 
+            this.hexDilatationWhite.Name = "hexDilatationWhite";
+            this.hexDilatationWhite.Size = new System.Drawing.Size(180, 22);
+            this.hexDilatationWhite.Text = "White background";
+            this.hexDilatationWhite.Click += new System.EventHandler(this.hexDilatationWhite_Click);
+            // 
+            // hexDilatationBlack
+            // 
+            this.hexDilatationBlack.Name = "hexDilatationBlack";
+            this.hexDilatationBlack.Size = new System.Drawing.Size(180, 22);
+            this.hexDilatationBlack.Text = "Black background";
+            this.hexDilatationBlack.Click += new System.EventHandler(this.hexDilatationBlack_Click);
             // 
             // Form1
             // 
@@ -545,6 +599,12 @@
         private System.Windows.Forms.ToolStripMenuItem homotopiqueBlack;
         private System.Windows.Forms.ToolStripMenuItem homotopiqueWhite;
         private System.Windows.Forms.ToolStripMenuItem thresholdButton;
+        private System.Windows.Forms.ToolStripMenuItem hexErosionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hexErosionWhite;
+        private System.Windows.Forms.ToolStripMenuItem hexErosionBlack;
+        private System.Windows.Forms.ToolStripMenuItem hexDilatationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hexDilatationWhite;
+        private System.Windows.Forms.ToolStripMenuItem hexDilatationBlack;
     }
 }
 
