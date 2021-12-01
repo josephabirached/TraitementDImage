@@ -583,7 +583,7 @@ namespace TraitementDimage
             int i;
             (selected, i) = GetSelectedBox();
             ImageProcessingService.SetWhiteBackground();
-            selected.Image = ImageProcessingService.ErosionHex(new Bitmap(selected.Image),1);
+            selected.Image = ImageProcessingService.ErosionHex(new Bitmap(selected.Image),0);
         }
 
         private void dilatationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -591,8 +591,8 @@ namespace TraitementDimage
             PictureBox selected;
             int i;
             (selected, i) = GetSelectedBox();
-            ImageProcessingService.SetBlackBackground();
-            selected.Image = ImageProcessingService.OuvertureHex(new Bitmap(selected.Image), 6);
+            ImageProcessingService.SetWhiteBackground();
+            selected.Image = ImageProcessingService.OuvertureHex(new Bitmap(selected.Image), 1);
         }
 
         private void lantuejoul(int background)

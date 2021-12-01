@@ -22,3 +22,17 @@ C:\Users\josep\OneDrive\Documents\Uni\Sem 7\Analyse d'image - Modélisation 3D\P
 C:\Users\josep\OneDrive\Documents\Uni\Sem 7\Analyse d'image - Modélisation 3D\Projet\TraitementDImage\TraitementDimage\obj\Debug\TraitementDimage.IterationTimes.resources
 C:\Users\josep\OneDrive\Documents\Uni\Sem 7\Analyse d'image - Modélisation 3D\Projet\TraitementDImage\TraitementDimage\obj\Debug\TraitementDimage.BinairisationPopup.resources
 C:\Users\josep\OneDrive\Documents\Uni\Sem 7\Analyse d'image - Modélisation 3D\Projet\TraitementDImage\TraitementDimage\obj\Debug\TraitementDimage.ThresholdPopup.resources
+C:\Users\Charbel\source\repos\git\TraitementDImage\TraitementDimage\bin\Debug\TraitementDimage.exe.config
+C:\Users\Charbel\source\repos\git\TraitementDImage\TraitementDimage\bin\Debug\TraitementDimage.exe
+C:\Users\Charbel\source\repos\git\TraitementDImage\TraitementDimage\bin\Debug\TraitementDimage.pdb
+C:\Users\Charbel\source\repos\git\TraitementDImage\TraitementDimage\obj\Debug\TraitementDimage.csprojAssemblyReference.cache
+C:\Users\Charbel\source\repos\git\TraitementDImage\TraitementDimage\obj\Debug\TraitementDimage.ElementSizePopup.resources
+C:\Users\Charbel\source\repos\git\TraitementDImage\TraitementDimage\obj\Debug\TraitementDimage.Form1.resources
+C:\Users\Charbel\source\repos\git\TraitementDImage\TraitementDimage\obj\Debug\TraitementDimage.ThresholdPopup.resources
+C:\Users\Charbel\source\repos\git\TraitementDImage\TraitementDimage\obj\Debug\TraitementDimage.IterationTimes.resources
+C:\Users\Charbel\source\repos\git\TraitementDImage\TraitementDimage\obj\Debug\TraitementDimage.Properties.Resources.resources
+C:\Users\Charbel\source\repos\git\TraitementDImage\TraitementDimage\obj\Debug\TraitementDimage.BinairisationPopup.resources
+C:\Users\Charbel\source\repos\git\TraitementDImage\TraitementDimage\obj\Debug\TraitementDimage.csproj.GenerateResource.cache
+C:\Users\Charbel\source\repos\git\TraitementDImage\TraitementDimage\obj\Debug\TraitementDimage.csproj.CoreCompileInputs.cache
+C:\Users\Charbel\source\repos\git\TraitementDImage\TraitementDimage\obj\Debug\TraitementDimage.exe
+C:\Users\Charbel\source\repos\git\TraitementDImage\TraitementDimage\obj\Debug\TraitementDimage.pdb
